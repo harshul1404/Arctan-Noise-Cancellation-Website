@@ -945,6 +945,35 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* ══════ SIGNAL INTELLIGENCE — HyperFrames animation ══════ */}
+        <section className="rsp-stream-section" style={{ background: D.white, padding: '100px 40px', overflow: 'hidden' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+
+            {/* Header */}
+            <div className="rsp-stream-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 80, flexWrap: 'wrap', gap: 32 }}>
+              <div>
+                <div style={{ fontFamily: GTA, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: D.teal, marginBottom: 18 }}>
+                  Signal Intelligence
+                </div>
+                <h2 className="rsp-stream-h2" style={{ fontFamily: GTA, fontWeight: 400, fontSize: 44, letterSpacing: '-0.05em', lineHeight: '1.1em', fontFeatureSettings: '"blwf" on,"cv09" on,"cv03" on,"cv04" on,"cv11" on', color: D.ink, margin: 0 }}>
+                  <span style={{ color: '#1A8A70' }}>Multiple</span> voices.<br/>Only the Primary speaker gets through.
+                </h2>
+              </div>
+            </div>
+
+            {/* HyperFrames animation — responsive iframe wrapper */}
+            <div style={{ position: 'relative', width: '100%', paddingBottom: '60.98%', borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 40px rgba(22,56,40,0.08)' }}>
+              <iframe
+                src="/arctan-stream/index.html"
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none', display: 'block' }}
+                title="Arctan Signal Intelligence animation"
+                loading="lazy"
+              />
+            </div>
+
+          </div>
+        </section>
+
         {/* ══════ SDK / INTEGRATION ══════ */}
         <section className="rsp-intg-section" style={{ background: D.heroBg, padding: '100px 40px' }}>
           <div className="rsp-intg-grid" style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
