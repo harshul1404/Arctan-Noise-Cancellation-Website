@@ -959,33 +959,38 @@ export default function LandingPage() {
                 First-party SDKs for Node, Python, Go, and Rust.
               </p>
               <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' as const, marginBottom: 36 }}>
-                {/* LiveKit */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 22px', borderRadius: 14, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* LiveKit mark — two upward chevrons */}
-                    <path d="M4 17L12 9L20 17" stroke="#00E599" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M4 12L12 4L20 12" stroke="#00E599" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"/>
+                {/* LiveKit — official wordmark from livekit.com/brand */}
+                <div style={{ display: 'flex', alignItems: 'center', padding: '14px 22px', borderRadius: 14, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                  <svg width="88" height="20" viewBox="0 0 123 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clipPath="url(#lk-wm-clip)">
+                      <path d="M4.6991 0H0V27.5637H17.0471V23.538H4.6991V0Z" fill="white"/>
+                      <path d="M24.8037 12.5483H20.2505V27.5626H24.8037V12.5483Z" fill="white"/>
+                      <path d="M38.2076 27.0186L32.4161 8.01416H27.8628L33.9461 27.563H42.4691L48.5523 8.01416H43.9623L38.2076 27.0186Z" fill="white"/>
+                      <path d="M59.8485 7.58105C53.9468 7.58105 50.1953 11.7886 50.1953 17.7724C50.1953 23.7206 53.8376 28.0002 59.8485 28.0002C64.4374 28.0002 67.7523 25.9691 68.9906 21.7981H64.3606C63.6691 23.684 62.393 24.8104 59.8798 24.8104C57.1116 24.8104 55.1818 22.8879 54.8177 19.1171H69.3147C69.384 18.6364 69.4201 18.1515 69.4228 17.6659C69.4239 11.5702 65.6356 7.58105 59.8485 7.58105ZM54.8533 15.9585C55.3277 12.4416 57.185 10.773 59.8485 10.773C62.6524 10.773 64.5465 12.8397 64.7658 15.9585H54.8533Z" fill="white"/>
+                      <path d="M96.048 0H90.1474L78.7103 12.6216V0H74.0112V27.5637H78.7103V13.6372L91.3132 27.5637H97.323L84.1376 13.0562L96.048 0Z" fill="white"/>
+                      <path d="M103.914 8.01416H99.3608V23.0284H103.914V8.01416Z" fill="white"/>
+                      <path d="M20.251 8.01416H15.6978V12.5477H20.251V8.01416Z" fill="white"/>
+                      <path d="M108.468 23.0298H103.915V27.5633H108.468V23.0298Z" fill="white"/>
+                      <path d="M122.073 23.0298H117.52V27.5633H122.073V23.0298Z" fill="white"/>
+                      <path d="M122.073 12.5484V8.0149H117.52V0H112.966V8.0149H108.413V12.5484H112.966V23.0302H117.52V12.5484H122.073Z" fill="white"/>
+                    </g>
+                    <defs>
+                      <clipPath id="lk-wm-clip">
+                        <rect width="123" height="28" fill="white"/>
+                      </clipPath>
+                    </defs>
                   </svg>
-                  <span style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, letterSpacing: '-0.01em', color: 'white' }}>LiveKit</span>
                 </div>
-                {/* Pipecat */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 22px', borderRadius: 14, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* Pipecat mark — cat face */}
-                    <circle cx="12" cy="14" r="8" fill="#F97316"/>
-                    <polygon points="6,10 4,3 10,8" fill="#F97316"/>
-                    <polygon points="18,10 20,3 14,8" fill="#F97316"/>
-                    <polygon points="6.5,9 5,4.5 9.5,7.5" fill="#FCD34D"/>
-                    <polygon points="17.5,9 19,4.5 14.5,7.5" fill="#FCD34D"/>
-                    <ellipse cx="9" cy="13.5" rx="1.5" ry="1.5" fill="#1C1917"/>
-                    <ellipse cx="15" cy="13.5" rx="1.5" ry="1.5" fill="#1C1917"/>
-                    <ellipse cx="12" cy="16" rx="1.1" ry="0.8" fill="#FB923C"/>
-                    <line x1="3" y1="14" x2="8" y2="15" stroke="#1C1917" strokeWidth="0.7"/>
-                    <line x1="3" y1="16" x2="8" y2="16" stroke="#1C1917" strokeWidth="0.7"/>
-                    <line x1="16" y1="15" x2="21" y2="14" stroke="#1C1917" strokeWidth="0.7"/>
-                    <line x1="16" y1="16" x2="21" y2="16" stroke="#1C1917" strokeWidth="0.7"/>
+                {/* Pipecat — official icon from github.com/pipecat-ai/pipecat */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 22px', borderRadius: 14, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.3088 5.05615C3.64682 4.92779 4.02833 5.02411 4.26653 5.29797L7.36884 8.86461H16.6312L19.7335 5.29797C19.9717 5.02411 20.3532 4.92779 20.6912 5.05615C21.0292 5.18452 21.253 5.51072 21.253 5.87504V13.75H24V15.5H19.5181V8.19909L17.6762 10.3167C17.5115 10.506 17.2738 10.6146 17.0241 10.6146H6.9759C6.72616 10.6146 6.48854 10.506 6.32383 10.3167L4.48193 8.19909V15.5H0V13.75H2.74699V5.87504C2.74699 5.51072 2.97078 5.18452 3.3088 5.05615Z" fill="white"/>
+                    <path d="M19.5181 17.25H24V19H19.5181V17.25Z" fill="white"/>
+                    <path d="M0 17.25H4.48193V19H0V17.25Z" fill="white"/>
+                    <path d="M9.25301 14.3333C9.25301 14.9777 8.73517 15.5 8.09639 15.5C7.4576 15.5 6.93976 14.9777 6.93976 14.3333C6.93976 13.689 7.4576 13.1667 8.09639 13.1667C8.73517 13.1667 9.25301 13.689 9.25301 14.3333Z" fill="white"/>
+                    <path d="M17.0602 14.3333C17.0602 14.9777 16.5424 15.5 15.9036 15.5C15.2648 15.5 14.747 14.9777 14.747 14.3333C14.747 13.689 15.2648 13.1667 15.9036 13.1667C16.5424 13.1667 17.0602 13.689 17.0602 14.3333Z" fill="white"/>
                   </svg>
-                  <span style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, letterSpacing: '-0.01em', color: 'white' }}>pipecat</span>
+                  <span style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, letterSpacing: '-0.01em', color: 'white' }}>Pipecat</span>
                 </div>
               </div>
             </div>
