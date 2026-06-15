@@ -418,7 +418,7 @@ export default function LandingPage() {
         /* ── Heading: GT America Md bold display — visible at bottom, rises to centre on scroll ── */
         .seq-heading {
           font-family: "GT America Trial Md", "GT America Trial Md Placeholder", sans-serif;
-          font-weight: 700;
+          font-weight: 500;
           font-size: clamp(40px, 6.2vw, 92px);
           letter-spacing: -0.04em;
           line-height: 1.0em;
@@ -630,8 +630,8 @@ export default function LandingPage() {
         }}>
           <div className="rsp-nav-inner" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 40px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <a href="#" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <img src="/logos/arctan-mark.svg" alt="Arctan logomark" width="28" height="22" style={{ display: 'block' }} />
-              <span style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, letterSpacing: '-0.02em', color: D.heading }}>arc<span style={{ color: '#1A8A70' }}>t</span>an</span>
+              <img src="/logos/arctan-mark.svg" alt="Arctan logomark" width="34" height="20" style={{ display: 'block' }} />
+              <span style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, letterSpacing: '-0.02em', color: D.heading }}>arctan</span>
             </a>
             <div className="rsp-nav-links" style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
               {[
@@ -923,10 +923,10 @@ export default function LandingPage() {
                 <circle cx="450" cy="180" r="42" fill={D.white} stroke="rgba(27,6,36,0.10)" strokeWidth="1" />
                 <circle cx="450" cy="180" r="42" fill="none" stroke={D.lime} strokeWidth="1.5" opacity="0.32" />
                 {/* Arctan logomark */}
-                <image href="/logos/arctan-mark.svg" x="426" y="160" width="48" height="36" />
+                <image href="/logos/arctan-mark.svg" x="426" y="166" width="48" height="28" />
                 {/* label */}
                 <text x="450" y="252" textAnchor="middle" fontSize="14" fontWeight="400" letterSpacing="-0.03em" fontFamily="sans-serif">
-                  <tspan fill={D.ink}>arc</tspan><tspan fill="#1A8A70">t</tspan><tspan fill={D.ink}>an</tspan>
+                  <tspan fill={D.ink}>arctan</tspan>
                 </text>
                 <text x="450" y="267" textAnchor="middle" fontSize="8" letterSpacing="0.12em" fill={D.muted} fontFamily="sans-serif">VOICE ISOLATION</text>
 
@@ -942,35 +942,6 @@ export default function LandingPage() {
                 <text x="790" y="181" dominantBaseline="middle" fontSize="13" fontWeight="500" letterSpacing="-0.015em" fill={D.ink} fontFamily="sans-serif">Voice Agent</text>
 
               </svg>
-            </div>
-
-          </div>
-        </section>
-
-        {/* ══════ SIGNAL INTELLIGENCE — HyperFrames animation ══════ */}
-        <section className="rsp-stream-section" style={{ background: D.offWhite, padding: '80px 40px', overflow: 'hidden' }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-
-            {/* Header */}
-            <div className="rsp-stream-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56, flexWrap: 'wrap', gap: 32 }}>
-              <div>
-                <div style={{ fontFamily: GTA, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: D.teal, marginBottom: 18 }}>
-                  Signal Intelligence
-                </div>
-                <h2 className="rsp-stream-h2" style={{ fontFamily: GTA, fontWeight: 400, fontSize: 44, letterSpacing: '-0.05em', lineHeight: '1.1em', fontFeatureSettings: '"blwf" on,"cv09" on,"cv03" on,"cv04" on,"cv11" on', color: D.ink, margin: 0 }}>
-                  <span style={{ color: '#1A8A70' }}>Multiple</span> voices.<br/>Only the Primary speaker gets through.
-                </h2>
-              </div>
-            </div>
-
-            {/* HyperFrames animation — no border, blends with section background */}
-            <div style={{ position: 'relative', width: '100%', paddingBottom: '43%', overflow: 'hidden' }}>
-              <iframe
-                src="/arctan-stream/index.html"
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none', display: 'block' }}
-                title="Arctan Signal Intelligence animation"
-                loading="lazy"
-              />
             </div>
 
           </div>
@@ -1424,8 +1395,8 @@ export default function LandingPage() {
             <div className="rsp-footer-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 60, marginBottom: 56 }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-                  <img src="/logos/arctan-mark.svg" alt="Arctan logomark" width="28" height="22" style={{ display: 'block' }} />
-                  <span style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, letterSpacing: '-0.02em', color: D.ink }}>arc<span style={{ color: '#1A8A70' }}>t</span>an</span>
+                  <img src="/logos/arctan-mark.svg" alt="Arctan logomark" width="34" height="20" style={{ display: 'block' }} />
+                  <span style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, letterSpacing: '-0.02em', color: D.ink }}>arctan</span>
                 </div>
                 <p style={{ fontFamily: GTA, fontSize: 14, fontWeight: 400, letterSpacing: '-0.01em', lineHeight: '1.7em', color: D.inkSub, maxWidth: 240 }}>
                   The audio intelligence layer for Voice AI. Remove noise, isolate speakers, and make your AI actually work.
@@ -1454,8 +1425,8 @@ export default function LandingPage() {
               <span style={{ fontFamily: GTA, fontSize: 13, fontWeight: 400, color: D.muted }}>© 2026 Arctan, Inc. All rights reserved.</span>
               <div className="rsp-footer-legal" style={{ display: 'flex', gap: 24 }}>
                 {[
-                  { label: 'Privacy Policy', href: 'https://www.arctan.ai/legal/privacy-policy' },
-                  { label: 'Terms of Service', href: 'https://www.arctan.ai/legal/terms-and-conditions' },
+                  { label: 'Privacy Policy', href: '/legal/privacy-policy' },
+                  { label: 'Terms of Service', href: '/legal/terms-and-conditions' },
                   { label: 'Security', href: '#' },
                   { label: 'Status', href: '#' },
                 ].map(({ label, href }) => (

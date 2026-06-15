@@ -271,12 +271,12 @@ export default function StreamDemo() {
               fill={WHITE}
               stroke="rgba(27,6,36,0.08)" strokeWidth="1" />
             {/* Arctan logomark */}
-            <image href="/logos/arctan-mark.svg" x={CX - 22} y={CY - 17} width="44" height="33" />
+            <image href="/logos/arctan-mark.svg" x={CX - 22} y={CY - 13} width="44" height="26" />
             {/* Labels below node */}
             <text x={CX} y={CY + 76} textAnchor="middle"
               fontFamily={GTA} fontSize="14" fontWeight="400"
               letterSpacing="-0.03em">
-              <tspan fill={INK}>arc</tspan><tspan fill="#1A8A70">t</tspan><tspan fill={INK}>an</tspan>
+              <tspan fill={INK}>arctan</tspan>
             </text>
             <text x={CX} y={CY + 91} textAnchor="middle"
               fontFamily="'Fragment Mono', monospace" fontSize="8"
