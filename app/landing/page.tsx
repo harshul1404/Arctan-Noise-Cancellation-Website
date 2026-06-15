@@ -662,7 +662,6 @@ export default function LandingPage() {
               ))}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <a href="#contact" className="rsp-nav-contact" style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, color: D.inkSub }}>Contact</a>
               <button onClick={openTally} style={{ padding: '9px 22px', borderRadius: 9999, background: '#18160d', color: '#ffffff', fontFamily: GTA, fontWeight: 400, fontSize: 15, border: 'none', cursor: 'pointer' }}>
                 Try it Free
               </button>
@@ -814,11 +813,11 @@ export default function LandingPage() {
         </section>
 
         {/* ══════ STREAM PROCESSING ANIMATION — How Arctan works ══════ */}
-        <section id="product" className="rsp-stream-section" style={{ background: D.offWhite, padding: '100px 40px', overflow: 'hidden' }}>
+        <section id="product" className="rsp-stream-section" style={{ background: D.offWhite, padding: '60px 40px', overflow: 'hidden' }}>
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
             {/* Header */}
-            <div className="rsp-stream-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 80, flexWrap: 'wrap', gap: 32 }}>
+            <div className="rsp-stream-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48, flexWrap: 'wrap', gap: 32 }}>
               <div>
                 <h2 className="rsp-stream-h2" style={{ fontFamily: GTA, fontWeight: 400, fontSize: 44, letterSpacing: '-0.05em', lineHeight: '1.1em', fontFeatureSettings: '"blwf" on,"cv09" on,"cv03" on,"cv04" on,"cv11" on', color: D.ink, margin: 0 }}>
                   <span style={{ color: '#1A8A70' }}>Multiple</span> voices.<br/>Only the Primary speaker gets through.
