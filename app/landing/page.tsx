@@ -655,8 +655,8 @@ export default function LandingPage() {
             <div className="rsp-nav-links" style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
               {[
                 { label: 'How it works', href: '#product' },
-                { label: 'Benchmarks',   href: '#benchmarks' },
                 { label: 'Integration',  href: '#integration' },
+                { label: 'Benchmarks',   href: '#benchmarks' },
               ].map(({ label, href }) => (
                 <a key={label} href={href} style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, color: D.inkSub, transition: 'opacity 0.15s' }}>{label}</a>
               ))}
