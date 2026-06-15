@@ -148,7 +148,7 @@ export async function mixBackgroundStemWithDubbedSpeech(backgroundPath: string, 
     "-i",
     dubbedSpeechPath,
     "-filter_complex",
-    "[0:a]volume=0.22[bed];[1:a]volume=1.65,acompressor=threshold=-18dB:ratio=2.5:attack=5:release=80[voice];[bed][voice]amix=inputs=2:duration=longest:weights='0.45 1.0':dropout_transition=0,alimiter=limit=0.95[out]",
+    "[0:a]volume=0.15[bed];[1:a]volume=0.80[voice];[bed][voice]amix=inputs=2:duration=longest:normalize=0:dropout_transition=0,alimiter=limit=0.95[out]",
     "-map",
     "[out]",
     "-acodec",
@@ -196,30 +196,26 @@ export async function fitAudioToDuration(
   inputPath: string,
   outputPath: string,
   targetDuration: number,
-  maxAllowedDuration?: number
+  _maxAllowedDuration?: number
 ) {
   const sourceDuration = await getMediaDuration(inputPath);
-  // Allow dubbed speech to occupy the full silence window up to the next phrase.
-  // If it is still longer, speed it up enough to fit instead of clipping words.
-  const effectiveMax = maxAllowedDuration !== undefined
-    ? Math.max(targetDuration, maxAllowedDuration)
-    : Math.max(targetDuration, sourceDuration); // no external limit → let speech finish naturally
 
   const filters: string[] = [];
 
-  if (sourceDuration > effectiveMax + 0.05) {
+  // Speed up dubbed speech if it exceeds the phrase's own duration so it ends
+  // at the segment's end timestamp and never bleeds into the next phrase.
+  if (sourceDuration > targetDuration + 0.05) {
     const { buildAtempoFilter } = await import("@/lib/audioTimeline");
-    const ratio = sourceDuration / effectiveMax;
+    const ratio = sourceDuration / targetDuration;
     if (ratio > 1.01) {
       filters.push(buildAtempoFilter(ratio));
     }
   }
 
-  // Pad with silence to fill the window, then trim to it so the next phrase
-  // starts exactly on cue with no overlap.
+  // Pad with silence then hard-trim to the phrase boundary.
   filters.push(
-    `apad=pad_dur=${effectiveMax.toFixed(3)}`,
-    `atrim=0:${effectiveMax.toFixed(3)}`,
+    `apad=pad_dur=${targetDuration.toFixed(3)}`,
+    `atrim=0:${targetDuration.toFixed(3)}`,
     `asetpts=N/SR/TB`
   );
 
@@ -258,7 +254,7 @@ export async function trimGeneratedSpeech(inputPath: string, outputPath: string)
 }
 
 export async function mixSegmentsOnTimeline(
-  segmentPaths: Array<{ path: string; start: number }>,
+  segmentPaths: Array<{ path: string; start: number; end?: number }>,
   duration: number,
   outputPath: string
 ) {
@@ -273,17 +269,28 @@ export async function mixSegmentsOnTimeline(
   const delayedLabels = segmentPaths.map((segment, index) => {
     const inputIndex = index + 1;
     const delayMs = Math.max(0, Math.round(segment.start * 1000));
-    return `[${inputIndex}:a]adelay=${delayMs}:all=1[a${index}]`;
+    // Hard-cut each segment at its phrase end time so nothing bleeds past the boundary,
+    // even if fitAudioToDuration left a rounding remainder.
+    const hardCut = segment.end !== undefined
+      ? `,atrim=0:${segment.end.toFixed(3)}`
+      : "";
+    return `[${inputIndex}:a]adelay=${delayMs}:all=1${hardCut}[a${index}]`;
   });
   const mixInputs = ["[0:a]", ...segmentPaths.map((_, index) => `[a${index}]`)].join("");
-  const filter = `${delayedLabels.join(";")};${mixInputs}amix=inputs=${segmentPaths.length + 1}:duration=first:dropout_transition=0,atrim=0:${duration.toFixed(
-    3
-  )},asetpts=N/SR/TB[out]`;
+  // normalize=0: sum inputs at face value; alimiter handles any transient peaks.
+  // Without this, amix divides each segment by 1/(N+1), making speech increasingly quiet
+  // as the number of phrases grows.
+  const filter = `${delayedLabels.join(";")};${mixInputs}amix=inputs=${segmentPaths.length + 1}:duration=first:normalize=0:dropout_transition=0,atrim=0:${duration.toFixed(3)},alimiter=limit=0.95,asetpts=N/SR/TB[out]`;
 
   await execa("ffmpeg", [...args, "-filter_complex", filter, "-map", "[out]", "-acodec", "pcm_s16le", "-ar", "24000", "-ac", "1", outputPath]);
 }
 
 export async function mixOriginalBedWithDubbedSpeech(originalAudioPath: string, dubbedSpeechPath: string, outputPath: string) {
+  // normalize=0 prevents amix from attenuating the background differently depending on how many
+  // inputs are active — with normalize=1 (default), the background sounds quieter during speech
+  // than during silence because amix rescales by 1/N. With normalize=0 we fix levels explicitly.
+  // Background at 0.15 + voice at 0.80 = 0.95 max, so alimiter rarely engages and background
+  // stays at a near-constant level whether or not speech is playing.
   await execa("ffmpeg", [
     "-y",
     "-i",
@@ -291,7 +298,7 @@ export async function mixOriginalBedWithDubbedSpeech(originalAudioPath: string, 
     "-i",
     dubbedSpeechPath,
     "-filter_complex",
-    "[0:a]volume=0.12,highpass=f=120,lowpass=f=9000[bed];[1:a]volume=1.0[voice];[bed][voice]amix=inputs=2:duration=longest:dropout_transition=0,alimiter=limit=0.95[out]",
+    "[0:a]volume=0.15,highpass=f=120,lowpass=f=9000[bed];[1:a]volume=0.80[voice];[bed][voice]amix=inputs=2:duration=longest:normalize=0:dropout_transition=0,alimiter=limit=0.95[out]",
     "-map",
     "[out]",
     "-acodec",
@@ -302,6 +309,44 @@ export async function mixOriginalBedWithDubbedSpeech(originalAudioPath: string, 
     "1",
     outputPath
   ]);
+}
+
+/** Hard-cut an audio file to exactly `targetDuration` seconds using sample-accurate atrim. */
+export async function hardTrimAudio(inputPath: string, outputPath: string, targetDuration: number): Promise<void> {
+  const samples = Math.floor(targetDuration * 24000);
+  await execa("ffmpeg", [
+    "-y", "-i", inputPath,
+    "-af", `atrim=end_sample=${samples},asetpts=N/SR/TB`,
+    "-ar", "24000", "-ac", "1", outputPath
+  ]);
+}
+
+export async function trimMediaSegment(
+  inputPath: string,
+  outputPath: string,
+  start: number,
+  end: number,
+  includeVideo: boolean
+): Promise<void> {
+  const duration = end - start;
+  if (includeVideo) {
+    try {
+      await execa("ffmpeg", [
+        "-y", "-ss", start.toFixed(3), "-t", duration.toFixed(3),
+        "-i", inputPath, "-c:v", "copy", "-c:a", "aac", outputPath
+      ]);
+    } catch {
+      await execa("ffmpeg", [
+        "-y", "-ss", start.toFixed(3), "-t", duration.toFixed(3),
+        "-i", inputPath, "-c:v", "libx264", "-c:a", "aac", "-movflags", "+faststart", outputPath
+      ]);
+    }
+  } else {
+    await execa("ffmpeg", [
+      "-y", "-ss", start.toFixed(3), "-t", duration.toFixed(3),
+      "-i", inputPath, "-vn", "-acodec", "pcm_s16le", "-ar", "24000", "-ac", "1", outputPath
+    ]);
+  }
 }
 
 export async function createDubbedVideo(inputPath: string, audioPath: string, outputPath: string) {
@@ -349,4 +394,27 @@ export async function createDubbedVideo(inputPath: string, audioPath: string, ou
       throw new Error(`FFmpeg failed to create the dubbed video: ${message}`);
     }
   }
+}
+
+export async function normalizeVideoTimestamps(inputPath: string, outputPath: string) {
+  await execa("ffmpeg", [
+    "-y",
+    "-i",
+    inputPath,
+    "-vf",
+    "setpts=PTS-STARTPTS",
+    "-af",
+    "asetpts=PTS-STARTPTS",
+    "-c:v",
+    "libx264",
+    "-preset",
+    "ultrafast",
+    "-crf",
+    "18",
+    "-c:a",
+    "aac",
+    "-movflags",
+    "+faststart",
+    outputPath
+  ]);
 }

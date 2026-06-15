@@ -1,5 +1,7 @@
 import { promises as fs } from "fs";
 import { nanoid } from "nanoid";
+import path from "path";
+import { createDubbedVideo, normalizeVideoTimestamps } from "@/lib/ffmpeg";
 import { outputPath, publicOutputUrl, UploadMetadata } from "@/lib/storage";
 
 type ElevenLabsDubInput = {
@@ -12,6 +14,11 @@ type DubStatus = {
   status?: string;
   error?: string;
   target_languages?: string[];
+  source_language?: string | null;
+  media_metadata?: {
+    content_type?: string;
+    duration?: number;
+  } | null;
 };
 
 const ELEVENLABS_BASE_URL = "https://api.elevenlabs.io/v1";
@@ -41,7 +48,9 @@ async function elevenLabsFetch(path: string, init: RequestInit = {}) {
 export async function createElevenLabsDub(input: ElevenLabsDubInput) {
   const form = new FormData();
   const fileBuffer = await fs.readFile(input.upload.localPath);
-  form.append("file", new Blob([fileBuffer], { type: input.upload.mimeType }), input.upload.originalName);
+  const mimeType = elevenLabsMimeType(input.upload);
+  form.append("file", new Blob([fileBuffer], { type: mimeType }), input.upload.originalName);
+  form.append("name", `LT dub ${path.parse(input.upload.originalName).name}`.slice(0, 120));
   form.append("target_lang", input.targetLang);
   if (input.sourceLang && input.sourceLang !== "auto") form.append("source_lang", input.sourceLang);
   form.append("num_speakers", "0");
@@ -64,23 +73,83 @@ export async function createElevenLabsDub(input: ElevenLabsDubInput) {
 
   const audioResponse = await elevenLabsFetch(`/dubbing/${created.dubbing_id}/audio/${input.targetLang}`);
   const contentType = audioResponse.headers.get("content-type") ?? "";
-  const extension = contentType.includes("video") || input.upload.fileType === "video" ? "mp4" : "mp3";
+  const data = Buffer.from(await audioResponse.arrayBuffer());
+  const extension = inferDubExtension(contentType, data);
   const jobId = nanoid(16);
-  const filename = `${jobId}.${extension}`;
-  await fs.writeFile(outputPath(filename), Buffer.from(await audioResponse.arrayBuffer()));
+  const filename = `${jobId}-elevenlabs-dub.${extension}`;
+  await fs.writeFile(outputPath(filename), data);
+
+  let videoUrl: string | undefined;
+  let audioUrl: string | undefined;
+  let lipSyncMode: "provider_video_render" | "audio_timing_only" = "audio_timing_only";
+
+  if (extension === "mp4" || extension === "mov" || contentType.includes("video")) {
+    const normalizedFilename = `${jobId}-elevenlabs-dub-aligned.mp4`;
+    await normalizeVideoTimestamps(outputPath(filename), outputPath(normalizedFilename));
+    videoUrl = publicOutputUrl(normalizedFilename);
+    lipSyncMode = "provider_video_render";
+  } else {
+    audioUrl = publicOutputUrl(filename);
+    if (input.upload.fileType === "video") {
+      const muxedFilename = `${jobId}-elevenlabs-dubbed.mp4`;
+      await createDubbedVideo(input.upload.localPath, outputPath(filename), outputPath(muxedFilename));
+      videoUrl = publicOutputUrl(muxedFilename);
+    }
+  }
 
   return {
     jobId,
     transcript:
       "Dubbed with ElevenLabs production dubbing. Speaker detection, voice cloning, timing alignment, and background audio handling are managed by ElevenLabs.",
-    videoUrl: extension === "mp4" ? publicOutputUrl(filename) : undefined,
-    audioUrl: extension !== "mp4" ? publicOutputUrl(filename) : undefined,
+    videoUrl,
+    audioUrl,
     usage: {
       provider: "elevenlabs",
       dubbingId: created.dubbing_id,
-      status
+      status,
+      mediaType: contentType || status.media_metadata?.content_type,
+      capabilities: {
+        speakerDetection: true,
+        voiceCloning: true,
+        backgroundAudio: true,
+        timingAlignment: true,
+        lipSync: lipSyncMode === "provider_video_render",
+        lipSyncMode
+      }
     }
   };
+}
+
+function elevenLabsMimeType(upload: UploadMetadata) {
+  if (upload.mimeType && upload.mimeType !== "application/octet-stream") return upload.mimeType;
+  switch (upload.extension.toLowerCase()) {
+    case "mp4":
+      return "video/mp4";
+    case "mov":
+      return "video/quicktime";
+    case "webm":
+      return "video/webm";
+    case "mp3":
+      return "audio/mpeg";
+    case "m4a":
+      return "audio/mp4";
+    case "wav":
+      return "audio/wav";
+    default:
+      return upload.fileType === "video" ? "video/mp4" : "audio/mpeg";
+  }
+}
+
+function inferDubExtension(contentType: string, data: Buffer) {
+  const type = contentType.toLowerCase();
+  if (type.includes("mp4")) return "mp4";
+  if (type.includes("quicktime")) return "mov";
+  if (type.includes("mpeg") || type.includes("mp3")) return "mp3";
+  if (type.includes("wav")) return "wav";
+  if (data.subarray(4, 8).toString("ascii") === "ftyp") return "mp4";
+  if (data.subarray(0, 3).toString("ascii") === "ID3") return "mp3";
+  if (data.subarray(0, 4).toString("ascii") === "RIFF") return "wav";
+  return "mp3";
 }
 
 async function waitForDub(dubbingId: string, expectedDurationSec?: number) {

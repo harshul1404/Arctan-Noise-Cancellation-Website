@@ -10,12 +10,23 @@ type Result = {
   transcript: string;
   audioUrl?: string;
   videoUrl?: string;
+  usage?: {
+    provider?: string;
+    capabilities?: {
+      voiceCloning?: boolean;
+      backgroundAudio?: boolean;
+      timingAlignment?: boolean;
+      lipSync?: boolean;
+      lipSyncMode?: string;
+    };
+  };
 };
 
 export function ResultPreview({ result }: { result: Result | null }) {
   if (!result) return null;
   const transcriptBlob = new Blob([result.transcript], { type: "text/plain" });
   const transcriptUrl = URL.createObjectURL(transcriptBlob);
+  const capabilities = result.usage?.capabilities;
 
   return (
     <Card>
@@ -24,6 +35,14 @@ export function ResultPreview({ result }: { result: Result | null }) {
         <CardDescription>Preview and download the generated assets.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">
+        {capabilities ? (
+          <div className="flex flex-wrap gap-2 text-xs">
+            <Capability label="Voice clone" active={capabilities.voiceCloning} />
+            <Capability label="Background retained" active={capabilities.backgroundAudio} />
+            <Capability label="Timing aligned" active={capabilities.timingAlignment} />
+            <Capability label="Lip sync render" active={capabilities.lipSync} />
+          </div>
+        ) : null}
         <div className="space-y-2">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-sm font-medium">Translated transcript</h3>
@@ -66,5 +85,13 @@ export function ResultPreview({ result }: { result: Result | null }) {
         ) : null}
       </CardContent>
     </Card>
+  );
+}
+
+function Capability({ label, active }: { label: string; active?: boolean }) {
+  return (
+    <span className={`rounded-full border px-2.5 py-1 ${active ? "border-green-200 bg-green-50 text-green-700" : "border-amber-200 bg-amber-50 text-amber-700"}`}>
+      {active ? "On" : "Check"}: {label}
+    </span>
   );
 }

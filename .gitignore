@@ -20,3 +20,5 @@ temp_hf_models/
 .superdesign/
 .env
 .env.local
+.DS_Store
+.claude/

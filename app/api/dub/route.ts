@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { dubFromTranscript } from "@/lib/alignedDubbing";
 import { getUploadMetadata } from "@/lib/storage";
-import { dubRequestSchema } from "@/lib/validation";
+import { dubRequestSchema, validatePhraseTimings } from "@/lib/validation";
+import { getMediaDuration } from "@/lib/ffmpeg";
 
 export const runtime = "nodejs";
 export const maxDuration = 300;
@@ -22,14 +23,17 @@ export async function POST(request: Request) {
 
     const upload = await getUploadMetadata(parsed.data.fileId);
     if (!upload) return NextResponse.json({ error: "Uploaded file not found." }, { status: 404 });
+    const duration = await getMediaDuration(upload.localPath);
+    const timingError = validatePhraseTimings(parsed.data.phrases, duration);
+    if (timingError) return NextResponse.json({ error: timingError }, { status: 400 });
 
-    const result = await dubFromTranscript({
+    const { transcript, audioUrl, videoUrl, timingChecks } = await dubFromTranscript({
       jobId: parsed.data.jobId,
       upload,
       phrases: parsed.data.phrases
     });
 
-    return NextResponse.json(result);
+    return NextResponse.json({ transcript, audioUrl, videoUrl, timingChecks });
   } catch (error) {
     console.error("Dubbing failed", error);
     return NextResponse.json({ error: safeMsg(error) }, { status: 500 });
