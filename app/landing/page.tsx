@@ -654,8 +654,9 @@ export default function LandingPage() {
             </a>
             <div className="rsp-nav-links" style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
               {[
-                { label: 'Product',     href: '#product' },
-                { label: 'Integration', href: '#integration' },
+                { label: 'How it works', href: '#product' },
+                { label: 'Benchmarks',   href: '#benchmarks' },
+                { label: 'Integration',  href: '#integration' },
               ].map(({ label, href }) => (
                 <a key={label} href={href} style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, color: D.inkSub, transition: 'opacity 0.15s' }}>{label}</a>
               ))}
@@ -1037,7 +1038,7 @@ export default function LandingPage() {
         </section>
 
         {/* ══════ BENCHMARK — STT WER comparison ══════ */}
-        <section ref={benchmarkRef} className="rsp-bench-section" style={{ background: D.offWhite, padding: '100px 40px' }}>
+        <section id="benchmarks" ref={benchmarkRef} className="rsp-bench-section" style={{ background: D.offWhite, padding: '100px 40px' }}>
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
             {/* ── Header ── */}
