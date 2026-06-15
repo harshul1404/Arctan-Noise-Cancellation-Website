@@ -113,6 +113,25 @@ export default function LandingPage() {
     return () => { window.removeEventListener('scroll', fn); obs.disconnect() }
   }, [])
 
+  // Load Tally embed script once
+  useEffect(() => {
+    if (!document.querySelector('script[src="https://tally.so/widgets/embed.js"]')) {
+      const s = document.createElement('script')
+      s.src = 'https://tally.so/widgets/embed.js'
+      s.async = true
+      document.head.appendChild(s)
+    }
+  }, [])
+
+  const openTally = () => {
+    const tally = (window as any).Tally
+    if (tally) {
+      tally.openPopup('KYROzV', { transparentBackground: true, width: 480 })
+    } else {
+      window.open('https://tally.so/r/KYROzV', '_blank')
+    }
+  }
+
   // ── Scroll image-sequence: CSS sticky + rAF scroll listener (no CDN) ──────
   useEffect(() => {
     const FRAME_NUMS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25]
@@ -570,9 +589,9 @@ export default function LandingPage() {
           .rsp-cert-flex    { padding-left: 0 !important; justify-content: flex-start !important; gap: 28px !important; }
 
           /* Contact */
-          .rsp-contact-section { padding: 60px 20px !important; }
-          .rsp-contact-grid    { grid-template-columns: 1fr !important; gap: 48px !important; }
-          .rsp-contact-h2      { font-size: 30px !important; }
+          .rsp-contact-section { padding: 80px 20px !important; }
+          .rsp-contact-h2      { font-size: 32px !important; letter-spacing: -0.04em !important; }
+          .rsp-contact-btns    { flex-direction: column !important; align-items: stretch !important; width: 100% !important; max-width: 320px !important; }
 
           /* Footer */
           .rsp-footer          { padding: 48px 20px 32px !important; }
@@ -645,9 +664,9 @@ export default function LandingPage() {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <a href="#contact" className="rsp-nav-contact" style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, color: D.inkSub }}>Contact</a>
-              <a href="#contact" style={{ padding: '9px 22px', borderRadius: 9999, background: '#18160d', color: '#ffffff', fontFamily: GTA, fontWeight: 400, fontSize: 15 }}>
-                Get early access
-              </a>
+              <button onClick={openTally} style={{ padding: '9px 22px', borderRadius: 9999, background: '#18160d', color: '#ffffff', fontFamily: GTA, fontWeight: 400, fontSize: 15, border: 'none', cursor: 'pointer' }}>
+                Try it Free
+              </button>
             </div>
           </div>
         </nav>
@@ -676,14 +695,14 @@ export default function LandingPage() {
                 </p>
 
                 {/* CTA — hidden initially, JS fades in on third scroll phase */}
-                <a ref={seqCtaRef} href="#contact" className="seq-cta" style={{
+                <a ref={seqCtaRef} href="#contact" onClick={(e) => { e.preventDefault(); openTally() }} className="seq-cta" style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6,
                   padding: '12px 28px', borderRadius: 9999,
                   background: '#18160d', color: '#ffffff',
                   fontFamily: GTA, fontSize: 16, fontWeight: 400,
                   letterSpacing: '-0.01em',
                 }}>
-                  Get early access
+                  Try it Free
                 </a>
               </div>
             </div>
@@ -1356,41 +1375,42 @@ export default function LandingPage() {
         </section>
 
         {/* ══════ EVALUATION ACCESS / CONTACT — dark, 2-col form ══════ */}
-        <section id="contact" className="rsp-contact-section" style={{ background: D.heroBg, padding: '100px 40px' }}>
-          <div className="rsp-contact-grid" style={{ maxWidth: 960, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
-                <div style={{ width: 28, height: 1, background: D.lime }}/>
-                <span style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 11, color: D.lime, letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Evaluation Access</span>
-              </div>
-              <h2 className="rsp-contact-h2" style={{ fontFamily: GTA, fontSize: 44, fontWeight: 400, letterSpacing: '-0.06em', lineHeight: '1.05em', color: 'white', marginBottom: 20 }}>
-                Tell us what<br/>you're building.
-              </h2>
-              <p style={{ fontFamily: GTA, fontSize: 18, fontWeight: 400, letterSpacing: '-0.01em', lineHeight: '1.6em', color: 'rgba(255,255,255,0.45)', marginBottom: 36 }}>
-                For engineering teams shipping voice AI on embedded hardware.
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 14, paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                {['ARM inference binary + benchmark recordings','Python scoring scripts, run on your hardware','Direct engineering support, not a sales queue'].map(item => (
-                  <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 12, fontFamily: GTA, fontSize: 15, fontWeight: 400, letterSpacing: '-0.01em', color: 'rgba(255,255,255,0.65)' }}>
-                    <span style={{ color: D.lime }}>✓</span>{item}
-                  </div>
-                ))}
-              </div>
+        <section id="contact" className="rsp-contact-section" style={{ background: D.heroBg, padding: '120px 40px' }}>
+          <div style={{ maxWidth: 600, margin: '0 auto', display: 'flex', flexDirection: 'column' as const, alignItems: 'center', textAlign: 'center' as const }}>
+
+            {/* Icon */}
+            <div style={{ width: 88, height: 88, borderRadius: 22, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 36 }}>
+              <img src="/logos/arctan-mark.svg" alt="Arctan" width="50" height="30" style={{ display: 'block' }} />
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 12 }}>
-              {[{p:'Your name *',t:'text'},{p:'Company / project *',t:'text'},{p:'Work email *',t:'email'}].map(({p,t}) => (
-                <input key={p} type={t} placeholder={p} style={{ width: '100%', padding: '14px 18px', borderRadius: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontFamily: GTA, fontSize: 15, letterSpacing: '-0.01em' }}/>
-              ))}
-              <select style={{ width: '100%', padding: '14px 18px', borderRadius: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)', fontFamily: GTA, fontSize: 15 }}>
-                <option value="">Your role / interest *</option>
-                <option>Engineer</option><option>Founder / CTO</option><option>Product</option><option>Other</option>
-              </select>
-              <textarea placeholder="Briefly describe your use case (optional)" rows={4} style={{ width: '100%', padding: '14px 18px', borderRadius: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontFamily: GTA, fontSize: 15, letterSpacing: '-0.01em', resize: 'vertical' as const }}/>
-              <button style={{ width: '100%', padding: '15px', borderRadius: 9999, background: D.lime, color: D.heading, fontFamily: GTA, fontWeight: 400, fontSize: 16, letterSpacing: '-0.01em', border: 'none', cursor: 'pointer' }}>
-                Get early access →
+
+            {/* Heading */}
+            <h2 className="rsp-contact-h2" style={{ fontFamily: GTA_MD, fontSize: 52, fontWeight: 500, letterSpacing: '-0.05em', lineHeight: '1.05em', color: 'white', marginBottom: 20 }}>
+              Ready to ship cleaner<br/>Voice AI?
+            </h2>
+
+            {/* Subtext */}
+            <p style={{ fontFamily: GTA, fontSize: 18, fontWeight: 400, letterSpacing: '-0.01em', lineHeight: '1.65em', color: 'rgba(255,255,255,0.5)', marginBottom: 44, maxWidth: 440 }}>
+              Try Arctan free for 14 days — no credit card required. Or book a 30-minute call with our team.
+            </p>
+
+            {/* CTA buttons */}
+            <div className="rsp-contact-btns" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' as const, justifyContent: 'center' as const }}>
+              <button
+                onClick={openTally}
+                style={{ padding: '14px 36px', borderRadius: 9999, background: D.lime, color: D.heading, fontFamily: GTA, fontWeight: 400, fontSize: 16, letterSpacing: '-0.01em', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' as const }}
+              >
+                Try it Free
               </button>
-              <p style={{ fontFamily: GTA, fontSize: 13, fontWeight: 400, color: 'rgba(255,255,255,0.22)', textAlign: 'center' as const }}>We reply within one business day.</p>
+              <a
+                href="https://calendly.com/rohan-arctan/30min?month=2025-10"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ padding: '14px 36px', borderRadius: 9999, background: 'rgba(255,255,255,0.08)', color: 'white', fontFamily: GTA, fontWeight: 400, fontSize: 16, letterSpacing: '-0.01em', border: '1px solid rgba(255,255,255,0.18)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', whiteSpace: 'nowrap' as const }}
+              >
+                Get a Demo
+              </a>
             </div>
+
           </div>
         </section>
 
