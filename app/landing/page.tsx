@@ -860,13 +860,14 @@ export default function LandingPage() {
 
             {/* Stream animation — scrolls horizontally on small screens to stay legible */}
             <div className="rsp-stream-svg" style={{ width: '100%', overflow: 'hidden' }}>
-              {/* Intrinsic-ratio wrapper: locks height to viewBox aspect ratio so scaleY
-                  animations cannot trigger layout reflow in the parent section */}
-              <div style={{ position: 'relative', paddingBottom: '36%', height: 0 }}>
+              {/* Intrinsic-ratio wrapper: locks height to viewBox aspect ratio.
+                  contain:layout stops Safari from letting animated <g> bounding
+                  boxes (which can exceed the SVG viewport) escape into HTML layout. */}
+              <div style={{ position: 'relative', paddingBottom: '36%', height: 0, contain: 'layout' }}>
               <svg
                 viewBox="0 0 1000 360"
                 preserveAspectRatio="xMidYMid meet"
-                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'block', overflow: 'hidden' }}
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'block', overflow: 'hidden', contain: 'layout paint' }}
               >
                 <defs>
                   <clipPath id="arctanLogoClip"><rect x="432" y="162" width="36" height="36" rx="8" /></clipPath>
