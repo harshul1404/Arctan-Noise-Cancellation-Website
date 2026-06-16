@@ -352,6 +352,10 @@ export default function LandingPage() {
           font-family: "GT America Regular Placeholder";
           src: local("Arial");
           font-weight: 400; font-style: normal;
+          ascent-override: 88%;
+          descent-override: 22%;
+          line-gap-override: 0%;
+          size-adjust: 106%;
         }
         @font-face {
           font-family: "GT America Trial Md";
@@ -362,6 +366,10 @@ export default function LandingPage() {
           font-family: "GT America Trial Md Placeholder";
           src: local("Arial");
           font-weight: 500; font-style: normal;
+          ascent-override: 88%;
+          descent-override: 22%;
+          line-gap-override: 0%;
+          size-adjust: 104%;
         }
         @font-face {
           font-family: "Fragment Mono";
