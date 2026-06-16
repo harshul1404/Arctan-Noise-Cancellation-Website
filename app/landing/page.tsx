@@ -983,82 +983,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ══════ SDK / INTEGRATION ══════ */}
-        <section id="integration" className="rsp-intg-section" style={{ background: D.heroBg, padding: '100px 40px' }}>
-          <div className="rsp-intg-grid" style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
-            <div>
-              <h2 className="rsp-intg-h2" style={{ fontFamily: GTA, fontSize: 40, fontWeight: 400, letterSpacing: '-0.05em', lineHeight: '1.1em', fontFeatureSettings: '"blwf" on,"cv09" on,"cv03" on,"cv04" on,"cv11" on', color: 'white', marginBottom: 24 }}>
-                <span style={{ color: '#1A8A70' }}>Native</span> in the language<br/>you ship in.
-              </h2>
-              <p style={{ fontFamily: GTA, fontSize: 18, fontWeight: 400, letterSpacing: '-0.01em', lineHeight: '1.65em', color: 'rgba(255,255,255,0.5)', marginBottom: 36 }}>
-                First-party SDKs for Node, Python, Go, and Rust.
-              </p>
-              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' as const, marginBottom: 36 }}>
-                {/* LiveKit — official wordmark from livekit.com/brand */}
-                <div style={{ display: 'flex', alignItems: 'center', padding: '14px 22px', borderRadius: 14, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' }}>
-                  <svg width="88" height="20" viewBox="0 0 123 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clipPath="url(#lk-wm-clip)">
-                      <path d="M4.6991 0H0V27.5637H17.0471V23.538H4.6991V0Z" fill="white"/>
-                      <path d="M24.8037 12.5483H20.2505V27.5626H24.8037V12.5483Z" fill="white"/>
-                      <path d="M38.2076 27.0186L32.4161 8.01416H27.8628L33.9461 27.563H42.4691L48.5523 8.01416H43.9623L38.2076 27.0186Z" fill="white"/>
-                      <path d="M59.8485 7.58105C53.9468 7.58105 50.1953 11.7886 50.1953 17.7724C50.1953 23.7206 53.8376 28.0002 59.8485 28.0002C64.4374 28.0002 67.7523 25.9691 68.9906 21.7981H64.3606C63.6691 23.684 62.393 24.8104 59.8798 24.8104C57.1116 24.8104 55.1818 22.8879 54.8177 19.1171H69.3147C69.384 18.6364 69.4201 18.1515 69.4228 17.6659C69.4239 11.5702 65.6356 7.58105 59.8485 7.58105ZM54.8533 15.9585C55.3277 12.4416 57.185 10.773 59.8485 10.773C62.6524 10.773 64.5465 12.8397 64.7658 15.9585H54.8533Z" fill="white"/>
-                      <path d="M96.048 0H90.1474L78.7103 12.6216V0H74.0112V27.5637H78.7103V13.6372L91.3132 27.5637H97.323L84.1376 13.0562L96.048 0Z" fill="white"/>
-                      <path d="M103.914 8.01416H99.3608V23.0284H103.914V8.01416Z" fill="white"/>
-                      <path d="M20.251 8.01416H15.6978V12.5477H20.251V8.01416Z" fill="white"/>
-                      <path d="M108.468 23.0298H103.915V27.5633H108.468V23.0298Z" fill="white"/>
-                      <path d="M122.073 23.0298H117.52V27.5633H122.073V23.0298Z" fill="white"/>
-                      <path d="M122.073 12.5484V8.0149H117.52V0H112.966V8.0149H108.413V12.5484H112.966V23.0302H117.52V12.5484H122.073Z" fill="white"/>
-                    </g>
-                    <defs>
-                      <clipPath id="lk-wm-clip">
-                        <rect width="123" height="28" fill="white"/>
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </div>
-                {/* Pipecat — official icon from github.com/pipecat-ai/pipecat */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 22px', borderRadius: 14, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' }}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3.3088 5.05615C3.64682 4.92779 4.02833 5.02411 4.26653 5.29797L7.36884 8.86461H16.6312L19.7335 5.29797C19.9717 5.02411 20.3532 4.92779 20.6912 5.05615C21.0292 5.18452 21.253 5.51072 21.253 5.87504V13.75H24V15.5H19.5181V8.19909L17.6762 10.3167C17.5115 10.506 17.2738 10.6146 17.0241 10.6146H6.9759C6.72616 10.6146 6.48854 10.506 6.32383 10.3167L4.48193 8.19909V15.5H0V13.75H2.74699V5.87504C2.74699 5.51072 2.97078 5.18452 3.3088 5.05615Z" fill="white"/>
-                    <path d="M19.5181 17.25H24V19H19.5181V17.25Z" fill="white"/>
-                    <path d="M0 17.25H4.48193V19H0V17.25Z" fill="white"/>
-                    <path d="M9.25301 14.3333C9.25301 14.9777 8.73517 15.5 8.09639 15.5C7.4576 15.5 6.93976 14.9777 6.93976 14.3333C6.93976 13.689 7.4576 13.1667 8.09639 13.1667C8.73517 13.1667 9.25301 13.689 9.25301 14.3333Z" fill="white"/>
-                    <path d="M17.0602 14.3333C17.0602 14.9777 16.5424 15.5 15.9036 15.5C15.2648 15.5 14.747 14.9777 14.747 14.3333C14.747 13.689 15.2648 13.1667 15.9036 13.1667C16.5424 13.1667 17.0602 13.689 17.0602 14.3333Z" fill="white"/>
-                  </svg>
-                  <span style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, letterSpacing: '-0.01em', color: 'white' }}>Pipecat</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Code block */}
-            <div className="rsp-code-wrap" style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.45)' }}>
-              <div style={{ padding: '12px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', gap: 6 }}>
-                  {[0,1,2].map(i => <div key={i} style={{ width: 10, height: 10, borderRadius: '50%', background: 'rgba(255,255,255,0.15)' }}/>)}
-                </div>
-                <span style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>Python</span>
-              </div>
-              <div className="rsp-code-inner" style={{ padding: '28px', fontFamily: "'Fragment Mono', monospace", fontSize: 13, lineHeight: '1.9em', minWidth: 'max-content' }}>
-                <div><span style={{ color: '#C792EA' }}>from</span> <span style={{ color: '#82AAFF' }}>arctan</span> <span style={{ color: '#C792EA' }}>import</span> <span style={{ color: '#FFCB6B' }}>arctan_enhancer</span></div>
-                <div style={{ marginTop: 16 }}/>
-                <div><span style={{ color: '#C3E88D' }}>await</span> <span style={{ color: 'rgba(255,255,255,0.7)' }}>session.start(</span></div>
-                <div style={{ paddingLeft: 24 }}><span style={{ color: 'rgba(255,255,255,0.5)' }}>agent</span><span style={{ color: 'rgba(255,255,255,0.4)' }}>=</span><span style={{ color: '#82AAFF' }}>Assistant</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>(),</span></div>
-                <div style={{ paddingLeft: 24 }}><span style={{ color: 'rgba(255,255,255,0.5)' }}>room</span><span style={{ color: 'rgba(255,255,255,0.4)' }}>=</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>ctx.room,</span></div>
-                <div style={{ paddingLeft: 24 }}><span style={{ color: 'rgba(255,255,255,0.5)' }}>room_options</span><span style={{ color: 'rgba(255,255,255,0.4)' }}>=</span><span style={{ color: '#82AAFF' }}>room_io.RoomOptions</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>(</span></div>
-                <div style={{ paddingLeft: 48 }}><span style={{ color: 'rgba(255,255,255,0.5)' }}>audio_input</span><span style={{ color: 'rgba(255,255,255,0.4)' }}>=</span><span style={{ color: '#82AAFF' }}>room_io.AudioInputOptions</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>(</span></div>
-                <div style={{ paddingLeft: 72 }}><span style={{ color: 'rgba(255,255,255,0.5)' }}>noise_cancellation</span><span style={{ color: 'rgba(255,255,255,0.4)' }}>=</span><span style={{ color: '#82AAFF' }}>arctan_enhancer</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>.</span><span style={{ color: '#FFCB6B' }}>noise_canceller</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>(</span></div>
-                <div style={{ paddingLeft: 96 }}><span style={{ color: 'rgba(255,255,255,0.5)' }}>key</span><span style={{ color: 'rgba(255,255,255,0.4)' }}>=</span><span style={{ color: '#82AAFF' }}>os.environ</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>[</span><span style={{ color: '#C3E88D' }}>"ARCTAN_KEY"</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>]</span></div>
-                <div style={{ paddingLeft: 72 }}><span style={{ color: 'rgba(255,255,255,0.7)' }}>),</span></div>
-                <div style={{ paddingLeft: 48 }}><span style={{ color: 'rgba(255,255,255,0.7)' }}>),</span></div>
-                <div style={{ paddingLeft: 24 }}><span style={{ color: 'rgba(255,255,255,0.7)' }}>),</span></div>
-                <div><span style={{ color: 'rgba(255,255,255,0.7)' }}>)</span></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* ══════ BENCHMARK — STT WER comparison ══════ */}
-        <section id="benchmarks" ref={benchmarkRef} className="rsp-bench-section" style={{ background: D.offWhite, padding: '100px 40px' }}>
+        <section id="benchmarks" ref={benchmarkRef} className="rsp-bench-section" style={{ background: D.white, padding: '100px 40px' }}>
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
             {/* ── Header ── */}
@@ -1140,6 +1066,80 @@ export default function LandingPage() {
               </span>
             </div>
 
+          </div>
+        </section>
+
+        {/* ══════ SDK / INTEGRATION ══════ */}
+        <section id="integration" className="rsp-intg-section" style={{ background: D.heroBg, padding: '100px 40px' }}>
+          <div className="rsp-intg-grid" style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+            <div>
+              <h2 className="rsp-intg-h2" style={{ fontFamily: GTA, fontSize: 40, fontWeight: 400, letterSpacing: '-0.05em', lineHeight: '1.1em', fontFeatureSettings: '"blwf" on,"cv09" on,"cv03" on,"cv04" on,"cv11" on', color: 'white', marginBottom: 24 }}>
+                <span style={{ color: '#1A8A70' }}>Native</span> in the language<br/>you ship in.
+              </h2>
+              <p style={{ fontFamily: GTA, fontSize: 18, fontWeight: 400, letterSpacing: '-0.01em', lineHeight: '1.65em', color: 'rgba(255,255,255,0.5)', marginBottom: 36 }}>
+                First-party SDKs for Node, Python, Go, and Rust.
+              </p>
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' as const, marginBottom: 36 }}>
+                {/* LiveKit — official wordmark from livekit.com/brand */}
+                <div style={{ display: 'flex', alignItems: 'center', padding: '14px 22px', borderRadius: 14, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                  <svg width="88" height="20" viewBox="0 0 123 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clipPath="url(#lk-wm-clip)">
+                      <path d="M4.6991 0H0V27.5637H17.0471V23.538H4.6991V0Z" fill="white"/>
+                      <path d="M24.8037 12.5483H20.2505V27.5626H24.8037V12.5483Z" fill="white"/>
+                      <path d="M38.2076 27.0186L32.4161 8.01416H27.8628L33.9461 27.563H42.4691L48.5523 8.01416H43.9623L38.2076 27.0186Z" fill="white"/>
+                      <path d="M59.8485 7.58105C53.9468 7.58105 50.1953 11.7886 50.1953 17.7724C50.1953 23.7206 53.8376 28.0002 59.8485 28.0002C64.4374 28.0002 67.7523 25.9691 68.9906 21.7981H64.3606C63.6691 23.684 62.393 24.8104 59.8798 24.8104C57.1116 24.8104 55.1818 22.8879 54.8177 19.1171H69.3147C69.384 18.6364 69.4201 18.1515 69.4228 17.6659C69.4239 11.5702 65.6356 7.58105 59.8485 7.58105ZM54.8533 15.9585C55.3277 12.4416 57.185 10.773 59.8485 10.773C62.6524 10.773 64.5465 12.8397 64.7658 15.9585H54.8533Z" fill="white"/>
+                      <path d="M96.048 0H90.1474L78.7103 12.6216V0H74.0112V27.5637H78.7103V13.6372L91.3132 27.5637H97.323L84.1376 13.0562L96.048 0Z" fill="white"/>
+                      <path d="M103.914 8.01416H99.3608V23.0284H103.914V8.01416Z" fill="white"/>
+                      <path d="M20.251 8.01416H15.6978V12.5477H20.251V8.01416Z" fill="white"/>
+                      <path d="M108.468 23.0298H103.915V27.5633H108.468V23.0298Z" fill="white"/>
+                      <path d="M122.073 23.0298H117.52V27.5633H122.073V23.0298Z" fill="white"/>
+                      <path d="M122.073 12.5484V8.0149H117.52V0H112.966V8.0149H108.413V12.5484H112.966V23.0302H117.52V12.5484H122.073Z" fill="white"/>
+                    </g>
+                    <defs>
+                      <clipPath id="lk-wm-clip">
+                        <rect width="123" height="28" fill="white"/>
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </div>
+                {/* Pipecat — official icon from github.com/pipecat-ai/pipecat */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 22px', borderRadius: 14, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.3088 5.05615C3.64682 4.92779 4.02833 5.02411 4.26653 5.29797L7.36884 8.86461H16.6312L19.7335 5.29797C19.9717 5.02411 20.3532 4.92779 20.6912 5.05615C21.0292 5.18452 21.253 5.51072 21.253 5.87504V13.75H24V15.5H19.5181V8.19909L17.6762 10.3167C17.5115 10.506 17.2738 10.6146 17.0241 10.6146H6.9759C6.72616 10.6146 6.48854 10.506 6.32383 10.3167L4.48193 8.19909V15.5H0V13.75H2.74699V5.87504C2.74699 5.51072 2.97078 5.18452 3.3088 5.05615Z" fill="white"/>
+                    <path d="M19.5181 17.25H24V19H19.5181V17.25Z" fill="white"/>
+                    <path d="M0 17.25H4.48193V19H0V17.25Z" fill="white"/>
+                    <path d="M9.25301 14.3333C9.25301 14.9777 8.73517 15.5 8.09639 15.5C7.4576 15.5 6.93976 14.9777 6.93976 14.3333C6.93976 13.689 7.4576 13.1667 8.09639 13.1667C8.73517 13.1667 9.25301 13.689 9.25301 14.3333Z" fill="white"/>
+                    <path d="M17.0602 14.3333C17.0602 14.9777 16.5424 15.5 15.9036 15.5C15.2648 15.5 14.747 14.9777 14.747 14.3333C14.747 13.689 15.2648 13.1667 15.9036 13.1667C16.5424 13.1667 17.0602 13.689 17.0602 14.3333Z" fill="white"/>
+                  </svg>
+                  <span style={{ fontFamily: GTA, fontSize: 16, fontWeight: 400, letterSpacing: '-0.01em', color: 'white' }}>Pipecat</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Code block */}
+            <div className="rsp-code-wrap" style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.45)' }}>
+              <div style={{ padding: '12px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  {[0,1,2].map(i => <div key={i} style={{ width: 10, height: 10, borderRadius: '50%', background: 'rgba(255,255,255,0.15)' }}/>)}
+                </div>
+                <span style={{ fontFamily: "'Fragment Mono', monospace", fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>Python</span>
+              </div>
+              <div className="rsp-code-inner" style={{ padding: '28px', fontFamily: "'Fragment Mono', monospace", fontSize: 13, lineHeight: '1.9em', minWidth: 'max-content' }}>
+                <div><span style={{ color: '#C792EA' }}>from</span> <span style={{ color: '#82AAFF' }}>arctan</span> <span style={{ color: '#C792EA' }}>import</span> <span style={{ color: '#FFCB6B' }}>arctan_enhancer</span></div>
+                <div style={{ marginTop: 16 }}/>
+                <div><span style={{ color: '#C3E88D' }}>await</span> <span style={{ color: 'rgba(255,255,255,0.7)' }}>session.start(</span></div>
+                <div style={{ paddingLeft: 24 }}><span style={{ color: 'rgba(255,255,255,0.5)' }}>agent</span><span style={{ color: 'rgba(255,255,255,0.4)' }}>=</span><span style={{ color: '#82AAFF' }}>Assistant</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>(),</span></div>
+                <div style={{ paddingLeft: 24 }}><span style={{ color: 'rgba(255,255,255,0.5)' }}>room</span><span style={{ color: 'rgba(255,255,255,0.4)' }}>=</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>ctx.room,</span></div>
+                <div style={{ paddingLeft: 24 }}><span style={{ color: 'rgba(255,255,255,0.5)' }}>room_options</span><span style={{ color: 'rgba(255,255,255,0.4)' }}>=</span><span style={{ color: '#82AAFF' }}>room_io.RoomOptions</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>(</span></div>
+                <div style={{ paddingLeft: 48 }}><span style={{ color: 'rgba(255,255,255,0.5)' }}>audio_input</span><span style={{ color: 'rgba(255,255,255,0.4)' }}>=</span><span style={{ color: '#82AAFF' }}>room_io.AudioInputOptions</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>(</span></div>
+                <div style={{ paddingLeft: 72 }}><span style={{ color: 'rgba(255,255,255,0.5)' }}>noise_cancellation</span><span style={{ color: 'rgba(255,255,255,0.4)' }}>=</span><span style={{ color: '#82AAFF' }}>arctan_enhancer</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>.</span><span style={{ color: '#FFCB6B' }}>noise_canceller</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>(</span></div>
+                <div style={{ paddingLeft: 96 }}><span style={{ color: 'rgba(255,255,255,0.5)' }}>key</span><span style={{ color: 'rgba(255,255,255,0.4)' }}>=</span><span style={{ color: '#82AAFF' }}>os.environ</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>[</span><span style={{ color: '#C3E88D' }}>"ARCTAN_KEY"</span><span style={{ color: 'rgba(255,255,255,0.7)' }}>]</span></div>
+                <div style={{ paddingLeft: 72 }}><span style={{ color: 'rgba(255,255,255,0.7)' }}>),</span></div>
+                <div style={{ paddingLeft: 48 }}><span style={{ color: 'rgba(255,255,255,0.7)' }}>),</span></div>
+                <div style={{ paddingLeft: 24 }}><span style={{ color: 'rgba(255,255,255,0.7)' }}>),</span></div>
+                <div><span style={{ color: 'rgba(255,255,255,0.7)' }}>)</span></div>
+              </div>
+            </div>
           </div>
         </section>
 
