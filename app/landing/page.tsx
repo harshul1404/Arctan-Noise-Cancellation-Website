@@ -175,10 +175,12 @@ export default function LandingPage() {
       if (!img?.complete) return
       const cW = canvas.width, cH = canvas.height
       const iW = img.naturalWidth, iH = img.naturalHeight
-      // Cover: find scale that fills both dimensions, then centre
+      // Cover: find scale that fills both dimensions
       const scale = Math.max(cW / iW, cH / iH)
       const dW = iW * scale, dH = iH * scale
-      const dx = (cW - dW) / 2, dy = (cH - dH) / 2
+      // On mobile (portrait), shift anchor rightward so headphones are visible
+      const anchorX = cW < cH ? 0.72 : 0.5
+      const dx = (cW - dW) * anchorX, dy = (cH - dH) / 2
       ctx.clearRect(0, 0, cW, cH)
       ctx.drawImage(img, dx, dy, dW, dH)
       currentFrame = clamped
