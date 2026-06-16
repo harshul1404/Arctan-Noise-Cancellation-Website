@@ -516,54 +516,53 @@ export default function LandingPage() {
           .seq-sub { font-size: 18px !important; }
         }
 
-        /* ── WER competitor comparison ─────────────────────────────────── */
-        .wer-grid {
+        /* ── WER bar chart ────────────────────────────────────────────────── */
+        .wer-bars { display: flex; flex-direction: column; border-top: 1px solid rgba(0,0,0,0.08); }
+        .wer-bar-row {
           display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          border-top: 1px solid rgba(0,0,0,0.08);
+          grid-template-columns: 140px 1fr 110px;
+          align-items: center;
+          gap: 24px;
+          padding: 22px 0;
+          border-bottom: 1px solid rgba(0,0,0,0.06);
         }
-        .wer-arctan-col {
-          padding: 40px 48px 40px 0;
-          border-top: 2px solid #1A8A70;
-          margin-top: -1px;
+        .wer-bar-track {
+          height: 40px;
+          background: rgba(27,6,36,0.05);
+          border-radius: 4px;
+          overflow: hidden;
+          position: relative;
         }
-        .wer-comp-col {
-          padding: 40px 0 40px 48px;
-          border-top: 1px solid rgba(0,0,0,0.08);
-          border-left: 1px solid rgba(0,0,0,0.08);
-          margin-top: -1px;
+        .wer-bar-fill {
+          position: absolute; left: 0; top: 0; bottom: 0;
+          border-radius: 4px;
         }
-        .wer-num-arctan {
+        .wer-bar-brand {
           font-family: "GT America Trial Md", sans-serif;
-          font-size: 96px; font-weight: 500;
-          line-height: 1; letter-spacing: -0.04em;
-          color: #1A8A70; margin-bottom: 20px;
+          font-size: 15px; font-weight: 500;
+          letter-spacing: -0.01em;
         }
-        .wer-num-arctan sup { font-size: 44px; vertical-align: top; padding-top: 10px; }
-        .wer-num-comp {
+        .wer-bar-num {
           font-family: "GT America Trial Md", sans-serif;
-          font-size: 56px; font-weight: 500;
-          line-height: 1; letter-spacing: -0.04em;
-          color: rgba(27,6,36,0.28); margin-bottom: 16px;
+          font-size: 26px; font-weight: 500;
+          letter-spacing: -0.04em;
+          text-align: right; line-height: 1;
         }
-        .wer-num-comp sup { font-size: 28px; vertical-align: top; padding-top: 6px; }
-        .wer-brand-label {
+        .wer-axis { display: grid; grid-template-columns: 140px 1fr 110px; gap: 24px; margin-top: 8px; }
+        .wer-axis-ticks { display: flex; justify-content: space-between; }
+        .wer-axis-tick {
           font-family: "GT America Regular", sans-serif;
-          font-size: 11px; font-weight: 400;
-          letter-spacing: 0.1em; text-transform: uppercase;
-          margin-bottom: 6px;
-        }
-        .wer-sub-label {
-          font-family: "GT America Regular", sans-serif;
-          font-size: 14px; letter-spacing: -0.01em;
+          font-size: 11px; letter-spacing: 0.02em;
+          color: rgba(27,6,36,0.28);
         }
         .wer-delta {
           display: inline-flex; align-items: center; gap: 4px;
-          margin-top: 14px;
-          padding: 4px 10px; border-radius: 999px;
+          margin-top: 6px;
+          padding: 3px 8px; border-radius: 999px;
           background: rgba(26,138,112,0.10);
           font-family: "GT America Regular", sans-serif;
-          font-size: 12px; color: #1A8A70; letter-spacing: -0.01em;
+          font-size: 11px; color: #1A8A70; letter-spacing: -0.01em;
+          white-space: nowrap;
         }
         .wer-factors {
           margin-top: 56px;
@@ -579,15 +578,14 @@ export default function LandingPage() {
         @media (max-width: 768px) {
           .rsp-wer-section { padding: 60px 20px !important; }
           .rsp-wer-h2      { font-size: 30px !important; }
-          .wer-grid        { grid-template-columns: 1fr !important; }
-          .wer-arctan-col  { padding: 32px 0 32px 0 !important; }
-          .wer-comp-col    { padding: 32px 0 !important; border-left: none !important; border-top: 1px solid rgba(0,0,0,0.08) !important; }
-          .wer-num-arctan  { font-size: 72px !important; }
-          .wer-num-comp    { font-size: 48px !important; }
+          .wer-bar-row     { grid-template-columns: 90px 1fr 76px !important; gap: 12px !important; }
+          .wer-axis        { grid-template-columns: 90px 1fr 76px !important; gap: 12px !important; }
+          .wer-bar-track   { height: 32px !important; }
+          .wer-bar-num     { font-size: 20px !important; }
+          .wer-bar-brand   { font-size: 12px !important; }
         }
         @media (min-width: 769px) and (max-width: 1024px) {
           .rsp-wer-section { padding: 80px 32px !important; }
-          .wer-num-arctan  { font-size: 80px !important; }
         }
 
         /* ── Benchmark section ─────────────────────────────────────────── */
@@ -1181,33 +1179,47 @@ export default function LandingPage() {
               </p>
             </div>
 
-            {/* WER numbers — Arctan hero + two competitors */}
-            <div className="wer-grid">
-
-              {/* ── Arctan ── */}
-              <div className="wer-arctan-col">
-                <div className="wer-num-arctan">13.3<span style={{ fontSize: 44, verticalAlign: 'baseline', letterSpacing: '-0.01em' }}>%</span></div>
-                <div className="wer-brand-label" style={{ color: D.teal }}>Arctan</div>
-                <div className="wer-sub-label" style={{ color: D.inkSub }}>Word Error Rate</div>
-              </div>
-
-              {/* ── Krisp ── */}
-              <div className="wer-comp-col">
-                <div className="wer-num-comp">16.7<span style={{ fontSize: 26, verticalAlign: 'baseline', letterSpacing: '-0.01em' }}>%</span></div>
-                <div className="wer-brand-label" style={{ color: D.muted }}>Krisp</div>
-                <div className="wer-sub-label" style={{ color: D.muted }}>Word Error Rate</div>
-                <div className="wer-delta">↓ 3.4pp lower with Arctan</div>
-              </div>
-
-              {/* ── ai-coustics ── */}
-              <div className="wer-comp-col">
-                <div className="wer-num-comp">15.9<span style={{ fontSize: 26, verticalAlign: 'baseline', letterSpacing: '-0.01em' }}>%</span></div>
-                <div className="wer-brand-label" style={{ color: D.muted }}>ai-coustics</div>
-                <div className="wer-sub-label" style={{ color: D.muted }}>Word Error Rate</div>
-                <div className="wer-delta">↓ 2.6pp lower with Arctan</div>
-              </div>
-
-            </div>
+            {/* WER bar chart */}
+            {(() => {
+              const MAX = 20
+              const rows = [
+                { brand: 'Arctan',      wer: 13.3, delta: null,      isArctan: true  },
+                { brand: 'ai-coustics', wer: 15.9, delta: '↓ 2.6pp', isArctan: false },
+                { brand: 'Krisp',       wer: 16.7, delta: '↓ 3.4pp', isArctan: false },
+              ]
+              return (
+                <div>
+                  <p style={{ fontFamily: GTA, fontSize: 12, letterSpacing: '0.06em', textTransform: 'uppercase' as const, color: D.muted, margin: '0 0 20px' }}>
+                    Word Error Rate — lower is better
+                  </p>
+                  <div className="wer-bars">
+                    {rows.map(({ brand, wer, delta, isArctan }) => (
+                      <div key={brand} className="wer-bar-row">
+                        <div className="wer-bar-brand" style={{ color: isArctan ? D.teal : D.muted }}>{brand}</div>
+                        <div className="wer-bar-track">
+                          <div className="wer-bar-fill" style={{ width: `${(wer / MAX) * 100}%`, background: isArctan ? D.teal : 'rgba(27,6,36,0.14)' }} />
+                        </div>
+                        <div style={{ textAlign: 'right' as const }}>
+                          <div className="wer-bar-num" style={{ color: isArctan ? D.teal : D.muted }}>
+                            {wer}<span style={{ fontSize: '0.55em', letterSpacing: '-0.01em' }}>%</span>
+                          </div>
+                          {delta && <div className="wer-delta">{delta} with Arctan</div>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="wer-axis">
+                    <div />
+                    <div className="wer-axis-ticks">
+                      {[0, 5, 10, 15, 20].map(v => (
+                        <span key={v} className="wer-axis-tick">{v}%</span>
+                      ))}
+                    </div>
+                    <div />
+                  </div>
+                </div>
+              )
+            })()}
 
             {/* Supporting factors */}
             <div className="wer-factors">
