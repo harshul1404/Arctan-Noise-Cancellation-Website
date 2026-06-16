@@ -555,16 +555,7 @@ export default function LandingPage() {
           font-size: 11px; letter-spacing: 0.02em;
           color: rgba(27,6,36,0.28);
         }
-        .wer-delta {
-          display: inline-flex; align-items: center; gap: 4px;
-          margin-top: 6px;
-          padding: 3px 8px; border-radius: 999px;
-          background: rgba(26,138,112,0.10);
-          font-family: "GT America Regular", sans-serif;
-          font-size: 11px; color: #1A8A70; letter-spacing: -0.01em;
-          white-space: nowrap;
-        }
-        .wer-factors {
+.wer-factors {
           margin-top: 56px;
           display: flex; flex-wrap: wrap; gap: 10px;
         }
@@ -1175,7 +1166,7 @@ export default function LandingPage() {
                 The industry's <span style={{ color: D.teal }}>lowest</span> WER.
               </h2>
               <p style={{ fontFamily: GTA, fontSize: 17, fontWeight: 400, letterSpacing: '-0.01em', lineHeight: '1.6em', color: D.inkSub, maxWidth: 380, margin: 0 }}>
-                Compared against leading noise-suppression providers on real-world voice agent calls with background noise, cross-talk, and mumbles.
+                Compared against other noise-suppression providers on real-world voice agent calls with background noise, cross-talk, and mumbles.
               </p>
             </div>
 
@@ -1183,27 +1174,26 @@ export default function LandingPage() {
             {(() => {
               const MAX = 20
               const rows = [
-                { brand: 'Arctan',      wer: 13.3, delta: null,      isArctan: true  },
-                { brand: 'ai-coustics', wer: 15.9, delta: '↓ 2.6pp', isArctan: false },
-                { brand: 'Krisp',       wer: 16.7, delta: '↓ 3.4pp', isArctan: false },
+                { brand: 'Arctan',      wer: 13.3, isArctan: true  },
+                { brand: 'ai-coustics', wer: 15.9, isArctan: false },
+                { brand: 'Krisp',       wer: 16.7, isArctan: false },
               ]
               return (
                 <div>
                   <p style={{ fontFamily: GTA, fontSize: 12, letterSpacing: '0.06em', textTransform: 'uppercase' as const, color: D.muted, margin: '0 0 20px' }}>
-                    Word Error Rate — lower is better
+                    Word Error Rate : lower is better
                   </p>
                   <div className="wer-bars">
-                    {rows.map(({ brand, wer, delta, isArctan }) => (
+                    {rows.map(({ brand, wer, isArctan }) => (
                       <div key={brand} className="wer-bar-row">
                         <div className="wer-bar-brand" style={{ color: isArctan ? D.teal : D.muted }}>{brand}</div>
                         <div className="wer-bar-track">
                           <div className="wer-bar-fill" style={{ width: `${(wer / MAX) * 100}%`, background: isArctan ? D.teal : 'rgba(27,6,36,0.14)' }} />
                         </div>
                         <div style={{ textAlign: 'right' as const }}>
-                          <div className="wer-bar-num" style={{ color: isArctan ? D.teal : D.muted }}>
+                          <div className="wer-bar-num" style={{ color: isArctan ? D.teal : '#C0392B' }}>
                             {wer}<span style={{ fontSize: '0.55em', letterSpacing: '-0.01em' }}>%</span>
                           </div>
-                          {delta && <div className="wer-delta">{delta} with Arctan</div>}
                         </div>
                       </div>
                     ))}
