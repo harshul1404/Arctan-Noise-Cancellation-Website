@@ -516,6 +516,80 @@ export default function LandingPage() {
           .seq-sub { font-size: 18px !important; }
         }
 
+        /* ── WER competitor comparison ─────────────────────────────────── */
+        .wer-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          border-top: 1px solid rgba(0,0,0,0.08);
+        }
+        .wer-arctan-col {
+          padding: 40px 48px 40px 0;
+          border-top: 2px solid #1A8A70;
+          margin-top: -1px;
+        }
+        .wer-comp-col {
+          padding: 40px 0 40px 48px;
+          border-top: 1px solid rgba(0,0,0,0.08);
+          border-left: 1px solid rgba(0,0,0,0.08);
+          margin-top: -1px;
+        }
+        .wer-num-arctan {
+          font-family: "GT America Trial Md", sans-serif;
+          font-size: 96px; font-weight: 500;
+          line-height: 1; letter-spacing: -0.04em;
+          color: #1A8A70; margin-bottom: 20px;
+        }
+        .wer-num-arctan sup { font-size: 44px; vertical-align: top; padding-top: 10px; }
+        .wer-num-comp {
+          font-family: "GT America Trial Md", sans-serif;
+          font-size: 56px; font-weight: 500;
+          line-height: 1; letter-spacing: -0.04em;
+          color: rgba(27,6,36,0.28); margin-bottom: 16px;
+        }
+        .wer-num-comp sup { font-size: 28px; vertical-align: top; padding-top: 6px; }
+        .wer-brand-label {
+          font-family: "GT America Regular", sans-serif;
+          font-size: 11px; font-weight: 400;
+          letter-spacing: 0.1em; text-transform: uppercase;
+          margin-bottom: 6px;
+        }
+        .wer-sub-label {
+          font-family: "GT America Regular", sans-serif;
+          font-size: 14px; letter-spacing: -0.01em;
+        }
+        .wer-delta {
+          display: inline-flex; align-items: center; gap: 4px;
+          margin-top: 14px;
+          padding: 4px 10px; border-radius: 999px;
+          background: rgba(26,138,112,0.10);
+          font-family: "GT America Regular", sans-serif;
+          font-size: 12px; color: #1A8A70; letter-spacing: -0.01em;
+        }
+        .wer-factors {
+          margin-top: 56px;
+          display: flex; flex-wrap: wrap; gap: 10px;
+        }
+        .wer-factor-tag {
+          font-family: "GT America Regular", sans-serif;
+          font-size: 13px; letter-spacing: -0.01em;
+          color: rgba(27,6,36,0.55);
+          padding: 7px 16px; border-radius: 999px;
+          border: 1px solid rgba(0,0,0,0.10);
+        }
+        @media (max-width: 768px) {
+          .rsp-wer-section { padding: 60px 20px !important; }
+          .rsp-wer-h2      { font-size: 30px !important; }
+          .wer-grid        { grid-template-columns: 1fr !important; }
+          .wer-arctan-col  { padding: 32px 0 32px 0 !important; }
+          .wer-comp-col    { padding: 32px 0 !important; border-left: none !important; border-top: 1px solid rgba(0,0,0,0.08) !important; }
+          .wer-num-arctan  { font-size: 72px !important; }
+          .wer-num-comp    { font-size: 48px !important; }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .rsp-wer-section { padding: 80px 32px !important; }
+          .wer-num-arctan  { font-size: 80px !important; }
+        }
+
         /* ── Benchmark section ─────────────────────────────────────────── */
         .bench-row {
           display: grid;
@@ -1088,6 +1162,58 @@ export default function LandingPage() {
               <span style={{ fontFamily: GTA, fontSize: 13, color: D.muted, letterSpacing: '-0.01em' }}>
                 Tested on real-world voice agent calls with background noise, side-talk, and mumbles. Full methodology available on request.
               </span>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ══════ WER COMPETITOR COMPARISON ══════ */}
+        <section id="wer" className="rsp-wer-section" style={{ background: D.offWhite, padding: '100px 40px' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+
+            {/* Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 72, flexWrap: 'wrap' as const, gap: 32 }}>
+              <h2 className="rsp-wer-h2" style={{ fontFamily: GTA, fontWeight: 400, fontSize: 44, letterSpacing: '-0.05em', lineHeight: '1.1em', fontFeatureSettings: '"blwf" on,"cv09" on,"cv03" on,"cv04" on,"cv11" on', color: D.ink, margin: 0 }}>
+                The industry's <span style={{ color: D.teal }}>lowest</span> WER.
+              </h2>
+              <p style={{ fontFamily: GTA, fontSize: 17, fontWeight: 400, letterSpacing: '-0.01em', lineHeight: '1.6em', color: D.inkSub, maxWidth: 380, margin: 0 }}>
+                Compared against leading noise-suppression providers on real-world voice agent calls with background noise, cross-talk, and mumbles.
+              </p>
+            </div>
+
+            {/* WER numbers — Arctan hero + two competitors */}
+            <div className="wer-grid">
+
+              {/* ── Arctan ── */}
+              <div className="wer-arctan-col">
+                <div className="wer-num-arctan">13.3<span style={{ fontSize: 44, verticalAlign: 'baseline', letterSpacing: '-0.01em' }}>%</span></div>
+                <div className="wer-brand-label" style={{ color: D.teal }}>Arctan</div>
+                <div className="wer-sub-label" style={{ color: D.inkSub }}>Word Error Rate</div>
+              </div>
+
+              {/* ── Krisp ── */}
+              <div className="wer-comp-col">
+                <div className="wer-num-comp">16.7<span style={{ fontSize: 26, verticalAlign: 'baseline', letterSpacing: '-0.01em' }}>%</span></div>
+                <div className="wer-brand-label" style={{ color: D.muted }}>Krisp</div>
+                <div className="wer-sub-label" style={{ color: D.muted }}>Word Error Rate</div>
+                <div className="wer-delta">↓ 3.4pp lower with Arctan</div>
+              </div>
+
+              {/* ── ai-coustics ── */}
+              <div className="wer-comp-col">
+                <div className="wer-num-comp">15.9<span style={{ fontSize: 26, verticalAlign: 'baseline', letterSpacing: '-0.01em' }}>%</span></div>
+                <div className="wer-brand-label" style={{ color: D.muted }}>ai-coustics</div>
+                <div className="wer-sub-label" style={{ color: D.muted }}>Word Error Rate</div>
+                <div className="wer-delta">↓ 2.6pp lower with Arctan</div>
+              </div>
+
+            </div>
+
+            {/* Supporting factors */}
+            <div className="wer-factors">
+              {['Speaker focus', 'Echo cancellation', 'Speech preservation', 'Accurate VAD', 'Multi-speaker separation', 'Noise suppression'].map(f => (
+                <span key={f} className="wer-factor-tag">{f}</span>
+              ))}
             </div>
 
           </div>
