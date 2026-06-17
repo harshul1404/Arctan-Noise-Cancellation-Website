@@ -1,0 +1,11 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" rx="20" fill="#1b1b2e"/>
+  <!-- i: dot + stem -->
+  <circle cx="30" cy="27" r="7.5" fill="#0d0d1f"/>
+  <rect x="23.5" y="38" width="13" height="30" rx="2" fill="#0d0d1f"/>
+  <!-- K: vertical bar + upper + lower arm -->
+  <rect x="45" y="20" width="12" height="60" rx="2" fill="#0d0d1f"/>
+  <rect x="55" y="20" width="22" height="13" rx="2" fill="#0d0d1f"/>
+  <rect x="55" y="47" width="22" height="13" rx="2" fill="#0d0d1f"/>
+  <rect x="65" y="67" width="12" height="13" rx="2" fill="#0d0d1f"/>
+</svg>
