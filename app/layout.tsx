@@ -3,17 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const arctanIcon = `${basePath}/logos/arctan-mark.svg`;
 
 export const metadata: Metadata = {
   title: "Qwen LiveTranslate Dubbing",
-  description: "Translate transcripts and generate dubbed audio or video with Qwen3-LiveTranslate-Flash.",
-  icons: {
-    icon: arctanIcon,
-    shortcut: arctanIcon,
-    apple: arctanIcon
-  }
+  description: "Translate transcripts and generate dubbed audio or video with Qwen3-LiveTranslate-Flash."
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
