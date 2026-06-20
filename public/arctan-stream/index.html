@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    @font-face {
+      font-family: 'Caveat';
+      src: url('assets/fonts/Caveat-Regular.woff2') format('woff2');
+      font-weight: 400; font-style: normal; font-display: block;
+    }
+    @font-face {
+      font-family: 'Caveat';
+      src: url('assets/fonts/Caveat-Medium.woff2') format('woff2');
+      font-weight: 500; font-style: normal; font-display: block;
+    }
+  </style>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #F7F7F5; }
+    svg { display: block; width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+
+<div data-hf-id="hf-2xwq" id="root" data-composition-id="main" data-start="0" data-duration="6" data-width="984" data-height="600">
+  <svg data-hf-id="hf-aaxl" id="canvas" viewBox="0 0 984 600" preserveAspectRatio="xMidYMid slice" style="background:#F7F7F5; overflow:hidden; width:100%; height:100%;">
+    <defs data-hf-id="hf-9s1s" id="svgDefs">
+      <!-- Clip: left of mic (input side) -->
+      <clippath data-hf-id="hf-1itm" id="clipIn"><rect data-hf-id="hf-3m8h" x="-200" y="-20" width="700" height="640" /></clippath>
+      <!-- Clip: output side — phrase disappears as it enters the Voice Agent card -->
+      <clippath data-hf-id="hf-k96d" id="clipOut"><rect data-hf-id="hf-2kji" x="542" y="-20" width="206" height="640" /></clippath>
+      <!-- Output straight path -->
+      <path data-hf-id="hf-9svd" id="pOut" d="M 542 300 L 1200 300" fill="none" />
+      <filter data-hf-id="hf-yudk" id="cardShadow" x="-20%" y="-40%" width="140%" height="180%">
+        <fedropshadow data-hf-id="hf-muen" dx="0" dy="3" stdDeviation="6" flood-color="#163828" flood-opacity="0.10" />
+      </filter>
+    </defs>
+
+    <!-- ═══ INPUT STREAMS (left of node) ═══ -->
+    <g data-hf-id="hf-tzkn" id="inputGroup" clip-path="url(#clipIn)" />
+
+    <!-- ═══ ARCTAN NODE (center) ═══ -->
+    <g data-hf-id="hf-6q0s" id="micNode" opacity="0" transform="translate(492,300)">
+      <circle data-hf-id="hf-f345" id="micGlow" r="66" fill="#1A8A70" opacity="0.07" />
+      <circle data-hf-id="hf-b8b4" r="50" fill="none" stroke="#1A8A70" stroke-width="1" opacity="0.18" />
+      <circle data-hf-id="hf-k5g0" r="42" fill="#F5FAF8" />
+      <circle data-hf-id="hf-dfng" r="40" fill="#EBF5F0" />
+      <!-- Arctan logomark -->
+      <image href="/logos/arctan-mark.svg" x="-21" y="-12" width="42" height="24" />
+      <!-- Label below the circle -->
+      <text x="0" y="62" text-anchor="middle" font-family="-apple-system, 'Inter', sans-serif" font-size="12" font-weight="500">
+        <tspan fill="#163828">arctan</tspan>
+      </text>
+      <text data-hf-id="hf-5phl" x="0" y="76" text-anchor="middle" font-family="-apple-system, 'Inter', sans-serif" font-size="10" font-weight="400" letter-spacing="0.04em" fill="#1A8A70">Voice Isolation</text>
+    </g>
+
+    <!-- ═══ OUTPUT STREAM (right of node → Voice Agent) ═══ -->
+    <g data-hf-id="hf-eo1d" id="outputGroup" opacity="0">
+      <!-- Clean line into the card -->
+      <line data-hf-id="hf-ltc1" id="outLine" x1="542" y1="300" x2="748" y2="300" stroke="#163828" stroke-width="1.6" opacity="0.4" />
+      <!-- Primary phrase flowing out, clipped as it enters the card -->
+      <g data-hf-id="hf-89xr" clip-path="url(#clipOut)">
+        <text data-hf-id="hf-uz19" id="outTextEl" xml:space="preserve">
+          <textpath data-hf-id="hf-ajna" id="tpOut" href="#pOut" startOffset="-38%" font-family="Caveat, cursive" font-size="29" font-weight="500" letter-spacing="0.02em" fill="#163828">What is my order status?</textpath>
+        </text>
+      </g>
+    </g>
+
+    <!-- ═══ VOICE AGENT CARD ═══ -->
+    <g data-hf-id="hf-gv2s" id="agentCard" opacity="0">
+      <rect data-hf-id="hf-xbk9" x="748" y="262" width="202" height="76" rx="15" fill="#FFFFFF" stroke="rgba(22,56,40,0.12)" stroke-width="1" filter="url(#cardShadow)" />
+      <rect data-hf-id="hf-a8nu" x="766" y="285" width="30" height="30" rx="8" fill="#EBF5F0" />
+      <rect data-hf-id="hf-ko4i" x="775" y="297" width="3" height="6" rx="1.5" fill="#163828" />
+      <rect data-hf-id="hf-zb0s" x="780" y="292" width="3" height="16" rx="1.5" fill="#163828" />
+      <rect data-hf-id="hf-rfeo" x="785" y="295" width="3" height="10" rx="1.5" fill="#163828" />
+      <text data-hf-id="hf-fvl8" x="806" y="297" font-family="-apple-system, 'Inter', sans-serif" font-size="14" font-weight="600" letter-spacing="-0.01em" fill="#163828">Voice Agent</text>
+      <text data-hf-id="hf-mhap" x="806" y="313" font-family="-apple-system, 'Inter', sans-serif" font-size="10.5" font-weight="400" fill="#7A8A80">Receiving…</text>
+      <circle data-hf-id="hf-jig6" id="agentPulse" cx="932" cy="300" r="4" fill="none" stroke="#2A9058" stroke-width="2" opacity="0" />
+      <circle data-hf-id="hf-whoj" cx="932" cy="300" r="4" fill="#2A9058" />
+    </g>
+
+  </svg>
+</div>
+
+<script>
+// ──────────────────────────────────────────────────────────────────────────────
+// Configuration
+// ──────────────────────────────────────────────────────────────────────────────
+const MX = 492, MY = 300, MIC_R = 42;
+const G_WAVE = '#2A9058'; // medium green for noise/secondary conversations
+const G_DARK = '#163828'; // dark forest green for primary speaker + node
+
+// Converging sinusoidal path: startY → MY, amplitude tapers into the node
+function makePath(startY, amp, wl, ph, steps = 320) {
+  const x0 = -150, x1 = MX - MIC_R - 6, endY = MY;
+  let d = '';
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const x = x0 + t * (x1 - x0);
+    const cy = startY + (endY - startY) * Math.pow(t, 2.0);
+    const a = amp * Math.max(0, 1 - Math.pow(t, 2.5) * 0.94);
+    const y = cy + a * Math.sin((2 * Math.PI * x) / wl + ph);
+    d += `${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)} `;
+  }
+  return d.trim();
+}
+
+const streams = [
+  { id: 's0', startY: 80,  amp: 24, wl: 170, ph: 0.4,
+    text: 'Can I          speak to          a manager?          Can I          speak',
+    fontSize: 17, fontWeight: '400', color: G_WAVE, pathOpacity: 0.50, textOpacity: 0.60,
+    strokeW: '1.1', dash: '7 5', fromOffset: '-62%', toOffset: '116%', animDur: 3.55, animStart: 0.50 },
+  { id: 's1', startY: 188, amp: 16, wl: 225, ph: 1.5,
+    text: 'What          are your          hours?          What          are your',
+    fontSize: 18, fontWeight: '400', color: G_WAVE, pathOpacity: 0.55, textOpacity: 0.65,
+    strokeW: '1.2', dash: '6 4', fromOffset: '-56%', toOffset: '114%', animDur: 3.60, animStart: 0.55 },
+  // PRIMARY SPEAKER — single phrase (was doubled)
+  { id: 's2', startY: 300, amp: 11, wl: 270, ph: 0.0, isPrimary: true,
+    text: 'What is my order status?',
+    fontSize: 24, fontWeight: '500', color: G_DARK, pathOpacity: 0.58, textOpacity: 0.88,
+    strokeW: '1.8', dash: 'none', fromOffset: '-30%', toOffset: '118%', animDur: 3.65, animStart: 0.48 },
+  { id: 's3', startY: 412, amp: 20, wl: 195, ph: 2.6,
+    text: 'Are you          open on          weekends?          Are you',
+    fontSize: 17, fontWeight: '400', color: G_WAVE, pathOpacity: 0.50, textOpacity: 0.58,
+    strokeW: '1.1', dash: '7 6', fromOffset: '-58%', toOffset: '113%', animDur: 3.50, animStart: 0.58 },
+  { id: 's4', startY: 510, amp: 25, wl: 160, ph: 3.9,
+    text: 'How do I          track          my package?          How do I',
+    fontSize: 16, fontWeight: '400', color: G_WAVE, pathOpacity: 0.45, textOpacity: 0.52,
+    strokeW: '1.0', dash: '5 5', fromOffset: '-62%', toOffset: '112%', animDur: 3.40, animStart: 0.62 },
+];
+
+const NS = 'http://www.w3.org/2000/svg';
+const svgDefs  = document.getElementById('svgDefs');
+const inputGrp = document.getElementById('inputGroup');
+
+streams.forEach(s => {
+  const pathData = makePath(s.startY, s.amp, s.wl, s.ph);
+
+  const defPath = document.createElementNS(NS, 'path');
+  defPath.setAttribute('id', `p-${s.id}`); defPath.setAttribute('d', pathData); defPath.setAttribute('fill', 'none');
+  svgDefs.appendChild(defPath);
+
+  const strokePath = document.createElementNS(NS, 'path');
+  strokePath.setAttribute('id', `sp-${s.id}`); strokePath.setAttribute('d', pathData); strokePath.setAttribute('fill', 'none');
+  strokePath.setAttribute('stroke', s.color); strokePath.setAttribute('stroke-width', s.strokeW);
+  strokePath.setAttribute('opacity', '0');
+  if (s.dash !== 'none') strokePath.setAttribute('stroke-dasharray', s.dash);
+  inputGrp.appendChild(strokePath);
+
+  const textEl = document.createElementNS(NS, 'text');
+  textEl.setAttribute('id', `txt-${s.id}`); textEl.setAttribute('xml:space', 'preserve'); textEl.setAttribute('opacity', '0');
+  const tp = document.createElementNS(NS, 'textPath');
+  tp.setAttribute('id', `tp-${s.id}`); tp.setAttribute('href', `#p-${s.id}`); tp.setAttribute('startOffset', s.fromOffset);
+  tp.setAttribute('font-family', 'Caveat, cursive'); tp.setAttribute('font-size', String(s.fontSize));
+  tp.setAttribute('font-weight', s.fontWeight); tp.setAttribute('letter-spacing', '0.02em');
+  tp.setAttribute('fill', s.color); tp.setAttribute('opacity', String(s.textOpacity));
+  tp.textContent = s.text;
+  textEl.appendChild(tp);
+  inputGrp.appendChild(textEl);
+});
+
+// ──────────────────────────────────────────────────────────────────────────────
+// GSAP Timeline (paused — HyperFrames seeks it frame by frame)
+// ──────────────────────────────────────────────────────────────────────────────
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused: true });
+
+// Node + Voice Agent appear
+tl.fromTo('#micNode', { opacity: 0 }, { opacity: 1, duration: 0.45, ease: 'power2.out' }, 0);
+tl.fromTo('#agentCard', { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0.4);
+
+// Input streams appear, staggered
+streams.forEach((s, i) => {
+  const t0 = 0.35 + i * 0.09;
+  tl.to(`#sp-${s.id}`,  { opacity: s.pathOpacity, duration: 0.55, ease: 'power1.out' }, t0);
+  tl.to(`#txt-${s.id}`, { opacity: 1,              duration: 0.45, ease: 'power1.out' }, t0 + 0.14);
+});
+
+// Words flow along the input paths
+streams.forEach(s => {
+  tl.fromTo(`#tp-${s.id}`, { attr: { startOffset: s.fromOffset } },
+    { attr: { startOffset: s.toOffset }, duration: s.animDur, ease: 'none' }, s.animStart);
+});
+
+// Node glow: breathing + filtering pulse
+tl.to('#micGlow', { opacity: 0.18, duration: 1.00, ease: 'sine.inOut' }, 0.60);
+tl.to('#micGlow', { opacity: 0.07, duration: 1.00, ease: 'sine.inOut' }, 1.60);
+tl.to('#micGlow', { opacity: 0.15, duration: 0.60, ease: 'sine.inOut' }, 2.60);
+tl.to('#micGlow', { opacity: 0.36, duration: 0.20, ease: 'power2.out' }, 3.20);
+tl.to('#micGlow', { opacity: 0.10, duration: 0.30, ease: 'power2.in'  }, 3.41);
+tl.to('#micGlow', { opacity: 0.22, duration: 0.60, ease: 'sine.inOut' }, 3.72);
+tl.to('#micGlow', { opacity: 0.10, duration: 0.70, ease: 'sine.inOut' }, 4.32);
+
+// Clean phrase emerges → flows into the Voice Agent
+tl.fromTo('#outputGroup', { opacity: 0 }, { opacity: 1, duration: 0.40, ease: 'power2.out' }, 3.50);
+tl.fromTo('#tpOut', { attr: { startOffset: '-38%' } },
+  { attr: { startOffset: '122%' }, duration: 2.50, ease: 'none' }, 3.55);
+
+// Voice Agent receives the clean phrase
+tl.fromTo('#agentPulse', { r: 4, opacity: 0.6 },
+  { r: 17, opacity: 0, duration: 1.1, ease: 'power2.out' }, 4.6);
+
+window.__timelines['main'] = tl;
+
+// Auto-play + loop when embedded on the website (not inside HyperFrames renderer)
+if (typeof window.__hf === 'undefined') {
+  document.fonts.ready.then(() => {
+    tl.eventCallback('onComplete', () => tl.restart());
+    tl.play();
+  });
+}
+</script>
+
+</body>
+</html>

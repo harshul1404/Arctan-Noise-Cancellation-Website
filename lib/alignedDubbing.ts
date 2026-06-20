@@ -10,6 +10,7 @@ import {
   fitAudioToDuration,
   getAudioChannels,
   getMediaDuration,
+  hardTrimAudio,
   mixBackgroundStemWithDubbedSpeech,
   mixOriginalBedWithDubbedSpeech,
   mixSegmentsOnTimeline,
@@ -136,7 +137,7 @@ export async function createAlignedDubbedVideo(input: AlignedDubbingInput) {
   }
 
   // ── 4. Translate and dub each phrase ──────────────────────────────────
-  const fittedSegments: Array<{ path: string; start: number }> = [];
+  const fittedSegments: Array<{ path: string; start: number; end?: number }> = [];
   const transcriptParts: string[] = [];
   const usages: unknown[] = [];
   const langType = langTypeForCode(input.targetLang);
@@ -289,7 +290,7 @@ export async function createAlignedDubbedVideo(input: AlignedDubbingInput) {
     // Fit into the available silence window (gentle compression ≤1.35×, no hard cut).
     await fitAudioToDuration(segmentTrimmedDubPath, segmentFitPath, segment.duration, maxAllowedDuration);
 
-    fittedSegments.push({ path: segmentFitPath, start: segment.start });
+    fittedSegments.push({ path: segmentFitPath, start: segment.start, end: segment.end });
     transcriptParts.push(
       `[${formatTimestamp(segment.start)} - ${formatTimestamp(segment.end)}] ` +
         `Speaker ${sid} | Phrase ${segment.index + 1}: ${translatedText}`
@@ -470,11 +471,20 @@ export async function transcribeAndTranslate(input: AlignedDubbingInput): Promis
 // Two-step workflow: Step 2 — dub from (possibly edited) transcript
 // ---------------------------------------------------------------------------
 
+export type SegmentTimingCheck = {
+  phraseIndex: number;
+  start: number;
+  end: number;
+  targetDuration: number;
+  actualDuration: number;
+  forceTrimmed: boolean;
+};
+
 export async function dubFromTranscript(input: {
   jobId: string;
   upload: UploadMetadata;
   phrases: TranscriptPhrase[];
-}): Promise<{ transcript: string; audioUrl: string; videoUrl: string }> {
+}): Promise<{ transcript: string; audioUrl: string; videoUrl: string; timingChecks: SegmentTimingCheck[] }> {
   const workDir = outputPath(`${input.jobId}-segments`);
   const sourceAudioPath = path.join(workDir, "source.wav");
 
@@ -492,8 +502,9 @@ export async function dubFromTranscript(input: {
     jobState.speakerClones.map((c) => [c.speakerId, { voiceId: c.voiceId, model: c.model }])
   );
 
-  const fittedSegments: Array<{ path: string; start: number }> = [];
+  const fittedSegments: Array<{ path: string; start: number; end?: number }> = [];
   const transcriptParts: string[] = [];
+  const timingChecks: SegmentTimingCheck[] = [];
 
   for (const phrase of input.phrases) {
     if (!phrase.translatedText.trim()) continue;
@@ -563,7 +574,30 @@ export async function dubFromTranscript(input: {
       await fs.copyFile(segDubPath, segTrimPath);
     }
     await fitAudioToDuration(segTrimPath, segFitPath, segment.duration, maxAllowedDuration);
-    fittedSegments.push({ path: segFitPath, start: phrase.start });
+
+    // Measure actual duration and force hard-trim if still over target.
+    const measuredDur = await getMediaDuration(segFitPath);
+    let forceTrimmed = false;
+    if (measuredDur > segment.duration + 0.015) {
+      const tmpPath = path.join(workDir, `segment-${phrase.index}-fix2.wav`);
+      await hardTrimAudio(segFitPath, tmpPath, segment.duration);
+      await fs.rename(tmpPath, segFitPath);
+      forceTrimmed = true;
+      console.warn(
+        `[step2] Segment ${phrase.index + 1}: force-trimmed ${((measuredDur - segment.duration) * 1000).toFixed(0)}ms overage`
+      );
+    }
+    const finalDur = await getMediaDuration(segFitPath);
+    timingChecks.push({
+      phraseIndex: phrase.index,
+      start: phrase.start,
+      end: phrase.end,
+      targetDuration: segment.duration,
+      actualDuration: finalDur,
+      forceTrimmed
+    });
+
+    fittedSegments.push({ path: segFitPath, start: phrase.start, end: phrase.end });
     transcriptParts.push(
       `[${formatTimestamp(phrase.start)} - ${formatTimestamp(phrase.end)}] ` +
         `Speaker ${phrase.speakerId} | Phrase ${phrase.index + 1}: ${phrase.translatedText}`
@@ -583,7 +617,8 @@ export async function dubFromTranscript(input: {
   return {
     transcript: transcriptParts.join("\n\n"),
     audioUrl: publicOutputUrl(audioFilename),
-    videoUrl: publicOutputUrl(videoFilename)
+    videoUrl: publicOutputUrl(videoFilename),
+    timingChecks
   };
 }
 
@@ -909,10 +944,11 @@ async function blendBackground(
     }
     console.warn("[aligned-dubbing] center_cut requires stereo audio; falling back to original_low.");
   }
-  if (mode === "center_cut" || mode === "original_low") {
+  if (mode === "center_cut" || mode === "original_low" || !mode) {
     await mixOriginalBedWithDubbedSpeech(sourceAudioPath, speechOnlyPath, outputAudioPath);
     return;
   }
+  // mode === "none": speech only, no background
   await fs.copyFile(speechOnlyPath, outputAudioPath);
 }
 

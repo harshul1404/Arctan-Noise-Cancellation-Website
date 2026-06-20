@@ -2,6 +2,7 @@ import { promises as fs } from "fs";
 import { nanoid } from "nanoid";
 import { NextResponse } from "next/server";
 import { createAlignedDubbedVideo } from "@/lib/alignedDubbing";
+import { createElevenLabsDub } from "@/lib/elevenlabs";
 import { createDubbedVideo, extractAudioToWav } from "@/lib/ffmpeg";
 import { translateWithQwen } from "@/lib/qwen";
 import { getUploadMetadata, outputPath, publicOutputUrl } from "@/lib/storage";
@@ -28,6 +29,10 @@ function safeErrorMessage(error: unknown) {
   return message || "Translation failed.";
 }
 
+function useProductionDubbingProvider() {
+  return process.env.DUBBING_PROVIDER?.toLowerCase() === "elevenlabs";
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -46,6 +51,15 @@ export async function POST(request: Request) {
     }
     if (upload.fileType !== parsed.data.fileType) {
       return NextResponse.json({ error: "Uploaded file type does not match the request." }, { status: 400 });
+    }
+
+    if (upload.fileType === "video" && parsed.data.outputMode === "text_audio_video" && useProductionDubbingProvider()) {
+      const dub = await createElevenLabsDub({
+        upload,
+        sourceLang: parsed.data.sourceLang,
+        targetLang: parsed.data.targetLang
+      });
+      return NextResponse.json(dub);
     }
 
     if (upload.fileType === "video" && parsed.data.outputMode === "text_audio_video") {

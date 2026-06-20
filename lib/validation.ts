@@ -78,18 +78,50 @@ export const transcribeRequestSchema = z.object({
   voice: z.string()
 });
 
+const phraseSchema = z.object({
+  index: z.number().int().min(0),
+  start: z.number().min(0),
+  end: z.number().min(0),
+  speakerId: z.string(),
+  translatedText: z.string()
+});
+
+export type DubbingPhrase = z.infer<typeof phraseSchema>;
+
+export function validatePhraseTimings(phrases: DubbingPhrase[], duration?: number) {
+  const tolerance = 0.015;
+  const sorted = [...phrases].sort((a, b) => a.start - b.start || a.end - b.end);
+
+  for (const phrase of sorted) {
+    if (phrase.end <= phrase.start) {
+      return `Phrase ${phrase.index + 1} must end after it starts.`;
+    }
+    if (duration !== undefined && phrase.end > duration + tolerance) {
+      return `Phrase ${phrase.index + 1} ends after the source video duration.`;
+    }
+  }
+
+  for (let i = 1; i < sorted.length; i += 1) {
+    const previous = sorted[i - 1];
+    const current = sorted[i];
+    if (current.start < previous.end - tolerance) {
+      return `Phrase ${current.index + 1} overlaps phrase ${previous.index + 1}.`;
+    }
+  }
+
+  return null;
+}
+
 export const dubRequestSchema = z.object({
   jobId: z.string().min(8),
   fileId: z.string().min(8),
-  phrases: z.array(
-    z.object({
-      index: z.number().int().min(0),
-      start: z.number().min(0),
-      end: z.number().min(0),
-      speakerId: z.string(),
-      translatedText: z.string()
-    })
-  ).min(1)
+  phrases: z.array(phraseSchema).min(1)
+});
+
+export const trimRequestSchema = z.object({
+  jobId: z.string().min(8),
+  fileId: z.string().min(8),
+  phrases: z.array(phraseSchema).min(1)
 });
 
 export function safeOutputFilename(filename: string) {
